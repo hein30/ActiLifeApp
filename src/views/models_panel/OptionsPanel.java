@@ -2,6 +2,7 @@ package views.models_panel;
 
 import controllers.models_panel.ModelsPanelController;
 import java.awt.BorderLayout;
+import java.awt.GridLayout;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.util.ArrayList;
@@ -22,8 +23,12 @@ public class OptionsPanel extends JPanel {
     private JScrollPane scrollPane;
     private JPanel checkboxPanel;
     private JPanel buttonsPanel;
+    private JButton importButton;
+    private JButton deleteButton;
 
     public OptionsPanel() {
+        setBorder(BorderFactory.createTitledBorder("Options"));
+
         checkBoxList = new ArrayList<>();
         setLayout(new BorderLayout());
 
@@ -31,13 +36,28 @@ public class OptionsPanel extends JPanel {
         checkboxPanel.setLayout(new BoxLayout(checkboxPanel, BoxLayout.Y_AXIS));
 
         scrollPane = new JScrollPane(checkboxPanel);
-        scrollPane.setBorder(BorderFactory.createTitledBorder("Options"));
+        scrollPane.setBorder(BorderFactory.createEmptyBorder());
         add(scrollPane, BorderLayout.CENTER);
 
         buttonsPanel = new JPanel();
         buttonsPanel.setBorder(BorderFactory.createEmptyBorder());
+
+        buttonsPanel.setLayout(new GridLayout(1, 2));
         add(buttonsPanel, BorderLayout.SOUTH);
-        buttonsPanel.add(new JButton("haha"));
+
+        importButton = createImportButton();
+        deleteButton = createDeleteButton();
+
+        buttonsPanel.add(importButton);
+        buttonsPanel.add(deleteButton);
+    }
+
+    private JButton createDeleteButton() {
+        return new JButton("Delete");
+    }
+
+    private JButton createImportButton() {
+        return new JButton("Import");
     }
 
     public void setController(ModelsPanelController controller) {

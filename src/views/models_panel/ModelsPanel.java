@@ -24,17 +24,16 @@ public class ModelsPanel extends JPanel {
         add(optionsPanel, BorderLayout.CENTER);
     }
 
+    public void setController(ModelsPanelController controller) {
+        this.controller = controller;
+        optionsPanel.setController(controller);
+    }
+
     public void updateModelInfo(ThreeDimensionalModels models) {
         infoPanel.updateModelInfo(models);
     }
 
     public void updateModelList(ThreeDimensionalModels models) {
         optionsPanel.updateModelList(models);
-    }
-
-    public void setController(ModelsPanelController controller) {
-        this.controller = controller;
-
-        optionsPanel.setController(controller);
     }
 }
