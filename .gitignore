@@ -1,0 +1,18 @@
+# Source Files #
+*.class
+*.metadata
+*.settings
+
+# Package Files #
+*.war
+*.ear
+
+# Directories #
+build/
+dist/
+bin/
+out/
+.idea/
+
+.project
+.classpath
