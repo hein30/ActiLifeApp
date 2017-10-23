@@ -1,9 +1,11 @@
-package controllers.models_panel;
+package controllers;
 
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.net.URLDecoder;
+import java.util.List;
+import models.FileModel;
 import models.ThreeDimensionalModels;
 import views.MainWindow;
 import views.models_panel.ModelsPanel;
@@ -11,7 +13,7 @@ import views.models_panel.ModelsPanel;
 /**
  * Controller for {@link views.models_panel.ModelsPanel}.
  */
-public class ModelsPanelController {
+public class ModelsPanelController extends BaseController {
 
     private ModelsPanel modelsPanel;
     private ThreeDimensionalModels models;
@@ -52,5 +54,15 @@ public class ModelsPanelController {
 
         models.updateSelection(indexOfChangedItem, stateChange);
         modelsPanel.updateModelInfo(models);
+    }
+
+    @Override
+    public void importFile(List<FileModel> files) {
+
+    }
+
+    @Override
+    public void deleteFile() {
+
     }
 }

@@ -1,6 +1,6 @@
 package views.models_panel;
 
-import controllers.models_panel.ModelsPanelController;
+import controllers.ModelsPanelController;
 import java.awt.BorderLayout;
 import javax.swing.BorderFactory;
 import javax.swing.JPanel;
@@ -8,7 +8,7 @@ import models.ThreeDimensionalModels;
 
 public class ModelsPanel extends JPanel {
 
-    private InfoPanel infoPanel;
+    private ThreeDModelsInfoPanel threeDModelsInfoPanel;
     private OptionsPanel optionsPanel;
 
     private ModelsPanelController controller;
@@ -17,8 +17,8 @@ public class ModelsPanel extends JPanel {
         setLayout(new BorderLayout());
         setBorder(BorderFactory.createTitledBorder("Models"));
 
-        infoPanel = new InfoPanel();
-        add(infoPanel, BorderLayout.NORTH);
+        threeDModelsInfoPanel = new ThreeDModelsInfoPanel();
+        add(threeDModelsInfoPanel, BorderLayout.NORTH);
 
         optionsPanel = new OptionsPanel();
         add(optionsPanel, BorderLayout.CENTER);
@@ -30,7 +30,7 @@ public class ModelsPanel extends JPanel {
     }
 
     public void updateModelInfo(ThreeDimensionalModels models) {
-        infoPanel.updateModelInfo(models);
+        threeDModelsInfoPanel.updateModelInfo(models);
     }
 
     public void updateModelList(ThreeDimensionalModels models) {

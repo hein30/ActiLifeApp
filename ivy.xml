@@ -14,5 +14,10 @@
     </configurations>
 
     <dependencies>
+        <!-- https://mvnrepository.com/artifact/org.apache.poi/poi -->
+        <dependency org="org.apache.poi" name="poi" rev="3.17"/>
+
+        <!-- https://mvnrepository.com/artifact/org.apache.poi/poi-ooxml -->
+        <dependency org="org.apache.poi" name="poi-ooxml" rev="3.17"/>
     </dependencies>
 </ivy-module>

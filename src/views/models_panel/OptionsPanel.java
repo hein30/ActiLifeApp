@@ -1,6 +1,6 @@
 package views.models_panel;
 
-import controllers.models_panel.ModelsPanelController;
+import controllers.ModelsPanelController;
 import java.awt.BorderLayout;
 import java.awt.GridLayout;
 import java.awt.event.ItemEvent;
@@ -13,6 +13,7 @@ import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
+import models.FileModel;
 import models.ThreeDimensionalModels;
 
 public class OptionsPanel extends JPanel {
@@ -71,8 +72,8 @@ public class OptionsPanel extends JPanel {
         revalidate();
     }
 
-    private void addCheckBox(ThreeDimensionalModels.ThreeDimensionalModel model) {
-        JCheckBox checkBox = new JCheckBox(model.getName());
+    private void addCheckBox(FileModel model) {
+        JCheckBox checkBox = new JCheckBox(model.getFileName());
         checkBox.addItemListener(new ItemListener() {
             @Override
             public void itemStateChanged(ItemEvent e) {

@@ -8,7 +8,7 @@ import java.util.stream.Collectors;
 
 public class ThreeDimensionalModels {
 
-    private List<ThreeDimensionalModel> models;
+    private List<FileModel> models;
 
     public ThreeDimensionalModels() {
         models = new ArrayList<>();
@@ -21,7 +21,7 @@ public class ThreeDimensionalModels {
      */
     public void add3DModels(File[] files) {
         for (File file : files) {
-            models.add(new ThreeDimensionalModel(file));
+            models.add(new FileModel(file));
         }
     }
 
@@ -31,20 +31,20 @@ public class ThreeDimensionalModels {
      * @param file
      */
     public void add3DModel(File file) {
-        models.add(new ThreeDimensionalModel(file));
+        models.add(new FileModel(file));
     }
 
-    public List<ThreeDimensionalModel> getModels() {
+    public List<FileModel> getModels() {
         return models;
     }
 
     /**
      * Return the selected 3D model templates.
      *
-     * @return - List of {@link models.ThreeDimensionalModels.ThreeDimensionalModel} that has been selected.
+     * @return - List of {@link models.FileModel} that has been selected.
      */
-    public List<ThreeDimensionalModel> getSelectedModels() {
-        return models.stream().filter(model -> model.selected).collect(Collectors.toList());
+    public List<FileModel> getSelectedModels() {
+        return models.stream().filter(model -> model.isSelected()).collect(Collectors.toList());
     }
 
     /**
@@ -57,39 +57,6 @@ public class ThreeDimensionalModels {
     }
 
     public void updateSelection(int indexOfChangedItem, int stateChange) {
-        models.get(indexOfChangedItem).selected = stateChange == ItemEvent.SELECTED;
-    }
-
-    /**
-     * Represents one 3D Model template file.
-     */
-    public class ThreeDimensionalModel {
-
-        private File file;
-        private boolean selected;
-
-        public ThreeDimensionalModel(File file) {
-            this.setFile(file);
-        }
-
-        public String getName() {
-            return file.getName();
-        }
-
-        public File getFile() {
-            return file;
-        }
-
-        public void setFile(File file) {
-            this.file = file;
-        }
-
-        public boolean isSelected() {
-            return selected;
-        }
-
-        public void setSelected(boolean selected) {
-            this.selected = selected;
-        }
+        models.get(indexOfChangedItem).setSelected(stateChange == ItemEvent.SELECTED);
     }
 }
