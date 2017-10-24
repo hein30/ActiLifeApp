@@ -8,6 +8,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.TreeMap;
 import models.Subject;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
@@ -26,7 +27,7 @@ public class ImportDataReader {
 
     public static List<Subject> readImportedFile(File importFile) throws IOException {
 
-        Map<String, Subject> subjectMap = new HashMap<>();
+        Map<String, Subject> subjectMap = new TreeMap<>();
 
         FileInputStream excelFile = new FileInputStream(importFile);
         Workbook workbook = new XSSFWorkbook(excelFile);

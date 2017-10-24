@@ -12,6 +12,7 @@ build/
 dist/
 bin/
 out/
+lib/
 .idea/
 
 .project

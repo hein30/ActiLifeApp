@@ -15,11 +15,10 @@ public class App {
 
         MainWindow mw = new MainWindow();
 
-        ModelsPanelController modelsPanelController = new ModelsPanelController(mw, models);
-
         DataPanelController dataPanelController = new DataPanelController(mw, importedData);
-
-        mw.setModelsPanelController(modelsPanelController);
         mw.setDataPanelController(dataPanelController);
+
+        ModelsPanelController modelsPanelController = new ModelsPanelController(mw, models);
+        mw.setModelsPanelController(modelsPanelController);
     }
 }

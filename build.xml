@@ -97,15 +97,21 @@
     <copy todir="${dir.dist}/lib">
       <fileset dir="${dir.lib}/compile" includes="**/*.jar"/>
     </copy>
+  	
+  	<mkdir dir="${dir.dist}/resource"/>
+  	<copy todir="${dir.dist}/resource">
+  	<fileset dir="${dir.rsrc}"/>
+  	</copy>
 
     <!-- Build up a classpath for the jar -->
-    <manifestclasspath property="dist.jar.classpath" jarfile="${dir.dist}/travel.jar">
+    <manifestclasspath property="dist.jar.classpath" jarfile="${dir.dist}/ActilifeApp.jar">
       <classpath>
         <fileset dir="${dir.dist}/lib" includes="**/*.jar"/>
+      	<fileset dir="${dir.dist}/resource" includes="**/*"/>
       </classpath>
     </manifestclasspath>
 
-    <jar destfile="${dir.dist}/travel.jar">
+    <jar destfile="${dir.dist}/ActilifeApp.jar">
       <manifest>
         <attribute name="Class-Path" value="${dist.jar.classpath}"/>
 		<attribute name="Main-Class" value="${main.class}" />
