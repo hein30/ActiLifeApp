@@ -24,4 +24,8 @@ public class Subjects {
     public List<Subject> getSubjectList() {
         return subjectList;
     }
+
+    public int numSubjects() {
+        return subjectList.size();
+    }
 }

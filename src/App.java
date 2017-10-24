@@ -10,7 +10,6 @@ public class App {
 
         //Maintain all the imported 3D model template files.
         ThreeDimensionalModels models = new ThreeDimensionalModels();
-
         ImportedData importedData = new ImportedData();
 
         MainWindow mw = new MainWindow();

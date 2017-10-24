@@ -41,6 +41,15 @@
           <root url="jar://$USER_HOME$/.ivy2/cache/org.apache.xmlbeans/xmlbeans/jars/xmlbeans-2.6.0.jar!/" />
           <root url="jar://$USER_HOME$/.ivy2/cache/stax/stax-api/jars/stax-api-1.0.1.jar!/" />
           <root url="jar://$USER_HOME$/.ivy2/cache/com.github.virtuald/curvesapi/jars/curvesapi-1.04.jar!/" />
+          <root url="jar://$USER_HOME$/.ivy2/cache/org.apache.velocity/velocity/jars/velocity-1.7.jar!/" />
+          <root url="jar://$USER_HOME$/.ivy2/cache/commons-collections/commons-collections/jars/commons-collections-3.2.1.jar!/" />
+          <root url="jar://$USER_HOME$/.ivy2/cache/commons-lang/commons-lang/jars/commons-lang-2.4.jar!/" />
+          <root url="jar://$USER_HOME$/.ivy2/cache/jdom/jdom/jars/jdom-1.0.jar!/" />
+          <root url="jar://$USER_HOME$/.ivy2/cache/javax.servlet/servlet-api/jars/servlet-api-2.3.jar!/" />
+          <root url="jar://$USER_HOME$/.ivy2/cache/logkit/logkit/jars/logkit-2.0.jar!/" />
+          <root url="jar://$USER_HOME$/.ivy2/cache/ant/ant/jars/ant-1.6.jar!/" />
+          <root url="jar://$USER_HOME$/.ivy2/cache/werken-xpath/werken-xpath/jars/werken-xpath-0.9.4.jar!/" />
+          <root url="jar://$USER_HOME$/.ivy2/cache/oro/oro/jars/oro-2.0.8.jar!/" />
         </CLASSES>
         <JAVADOC>
           <root url="jar://$USER_HOME$/.ivy2/cache/org.apache.poi/poi/javadocs/poi-3.17-javadoc.jar!/" />
@@ -50,6 +59,9 @@
           <root url="jar://$USER_HOME$/.ivy2/cache/log4j/log4j/javadocs/log4j-1.2.17-javadoc.jar!/" />
           <root url="jar://$USER_HOME$/.ivy2/cache/org.apache.poi/poi-ooxml/javadocs/poi-ooxml-3.17-javadoc.jar!/" />
           <root url="jar://$USER_HOME$/.ivy2/cache/com.github.virtuald/curvesapi/javadocs/curvesapi-1.04-javadoc.jar!/" />
+          <root url="jar://$USER_HOME$/.ivy2/cache/org.apache.velocity/velocity/javadocs/velocity-1.7-javadoc.jar!/" />
+          <root url="jar://$USER_HOME$/.ivy2/cache/commons-collections/commons-collections/javadocs/commons-collections-3.2.1-javadoc.jar!/" />
+          <root url="jar://$USER_HOME$/.ivy2/cache/commons-lang/commons-lang/javadocs/commons-lang-2.4-javadoc.jar!/" />
         </JAVADOC>
         <SOURCES>
           <root url="jar://$USER_HOME$/.ivy2/cache/org.apache.poi/poi/sources/poi-3.17-sources.jar!/" />
@@ -60,6 +72,13 @@
           <root url="jar://$USER_HOME$/.ivy2/cache/org.apache.openejb/javaee-api/sources/javaee-api-5.0-2-sources.jar!/" />
           <root url="jar://$USER_HOME$/.ivy2/cache/org.apache.poi/poi-ooxml/sources/poi-ooxml-3.17-sources.jar!/" />
           <root url="jar://$USER_HOME$/.ivy2/cache/com.github.virtuald/curvesapi/sources/curvesapi-1.04-sources.jar!/" />
+          <root url="jar://$USER_HOME$/.ivy2/cache/org.apache.velocity/velocity/sources/velocity-1.7-sources.jar!/" />
+          <root url="jar://$USER_HOME$/.ivy2/cache/commons-collections/commons-collections/sources/commons-collections-3.2.1-sources.jar!/" />
+          <root url="jar://$USER_HOME$/.ivy2/cache/commons-lang/commons-lang/sources/commons-lang-2.4-sources.jar!/" />
+          <root url="jar://$USER_HOME$/.ivy2/cache/jdom/jdom/sources/jdom-1.0-sources.jar!/" />
+          <root url="jar://$USER_HOME$/.ivy2/cache/javax.servlet/servlet-api/sources/servlet-api-2.3-sources.jar!/" />
+          <root url="jar://$USER_HOME$/.ivy2/cache/ant/ant/sources/ant-1.6-sources.jar!/" />
+          <root url="jar://$USER_HOME$/.ivy2/cache/oro/oro/sources/oro-2.0.8-sources.jar!/" />
         </SOURCES>
       </library>
     </orderEntry>

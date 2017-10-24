@@ -107,7 +107,7 @@
     <manifestclasspath property="dist.jar.classpath" jarfile="${dir.dist}/ActilifeApp.jar">
       <classpath>
         <fileset dir="${dir.dist}/lib" includes="**/*.jar"/>
-      	<fileset dir="${dir.dist}/resource" includes="**/*"/>
+        <pathelement location="${dir.dist}/resource/"/>
       </classpath>
     </manifestclasspath>
 

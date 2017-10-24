@@ -5,6 +5,7 @@ import java.util.List;
 import models.FileModel;
 import models.ImportedData;
 import views.MainWindow;
+import views.data_panel.DataInfoPanel;
 import views.data_panel.DataPanel;
 
 public class DataPanelController extends BaseController {
@@ -13,6 +14,7 @@ public class DataPanelController extends BaseController {
 
     public DataPanelController(MainWindow mw, ImportedData data) {
         this.dataPanel = mw.getDataPanel();
+
         this.data = data;
     }
 

@@ -4,7 +4,6 @@ import controllers.ModelsPanelController;
 import java.awt.BorderLayout;
 import java.awt.GridLayout;
 import java.awt.event.ItemEvent;
-import java.awt.event.ItemListener;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.BorderFactory;
@@ -74,13 +73,9 @@ public class OptionsPanel extends JPanel {
 
     private void addCheckBox(FileModel model) {
         JCheckBox checkBox = new JCheckBox(model.getFileName());
-        checkBox.addItemListener(new ItemListener() {
-            @Override
-            public void itemStateChanged(ItemEvent e) {
-                int indexOfChangedItem = checkBoxList.indexOf(e.getItem());
-
-                controller.updateSelection(indexOfChangedItem, e.getStateChange());
-            }
+        checkBox.addItemListener((ItemEvent e) -> {
+            int indexOfChangedItem = checkBoxList.indexOf(e.getItem());
+            controller.updateSelection(indexOfChangedItem, e.getStateChange());
         });
 
         checkboxPanel.add(checkBox);

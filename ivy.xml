@@ -19,5 +19,9 @@
 
         <!-- https://mvnrepository.com/artifact/org.apache.poi/poi-ooxml -->
         <dependency org="org.apache.poi" name="poi-ooxml" rev="3.17"/>
+
+        <!-- https://mvnrepository.com/artifact/org.apache.velocity/velocity -->
+        <dependency org="org.apache.velocity" name="velocity" rev="1.7"/>
+
     </dependencies>
 </ivy-module>

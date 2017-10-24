@@ -26,7 +26,8 @@ public class DataPanel extends JPanel {
     }
 
     public void updateDataViews(ImportedData data) {
-        //todo dataInfoPanel.updateView(data);
+        dataInfoPanel.updateView(data);
+
         tabbedPane.updateView(data);
         tabbedPane.setSelectedIndex(1);
     }

@@ -2,10 +2,12 @@
 *.class
 *.metadata
 *.settings
+*.iml #Intellij setting file
 
 # Package Files #
 *.war
 *.ear
+
 
 # Directories #
 build/
@@ -17,3 +19,4 @@ lib/
 
 .project
 .classpath
+velocity.log

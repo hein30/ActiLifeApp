@@ -3,6 +3,7 @@ package views.data_panel;
 import java.awt.GridBagConstraints;
 import javax.swing.JLabel;
 import javax.swing.SwingConstants;
+import models.ImportedData;
 import views.BaseInfoPanel;
 
 public class DataInfoPanel extends BaseInfoPanel {
@@ -52,5 +53,16 @@ public class DataInfoPanel extends BaseInfoPanel {
         numberOfPeople.setBorder(createRightBorder());
         getLayout().setConstraints(numberOfPeople, buildGbConstraints(GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL, 0, 5, 0));
         add(numberOfPeople);
+    }
+
+    public void updateView(ImportedData data) {
+        importedFiles.setText(String.valueOf(data.getFileMap().size()));
+
+        //todo update the selected file value.
+        selectedFiles.setText("0");
+
+        numberOfPeople.setText(String.valueOf(data.getNumPeople()));
+
+        revalidate();
     }
 }

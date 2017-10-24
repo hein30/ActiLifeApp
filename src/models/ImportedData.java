@@ -33,6 +33,10 @@ public class ImportedData {
         }
     }
 
+    public int getNumPeople() {
+        return fileMap.values().stream().mapToInt(Subjects::numSubjects).sum();
+    }
+
     public Map<String, Subjects> getFileMap() {
         return fileMap;
     }
