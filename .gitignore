@@ -2,7 +2,6 @@
 *.class
 *.metadata
 *.settings
-*.iml #Intellij setting file
 
 # Package Files #
 *.war
@@ -20,3 +19,4 @@ lib/
 .project
 .classpath
 velocity.log
+ActiLifeApp.iml
