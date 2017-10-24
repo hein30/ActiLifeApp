@@ -23,5 +23,10 @@
         <!-- https://mvnrepository.com/artifact/org.apache.velocity/velocity -->
         <dependency org="org.apache.velocity" name="velocity" rev="1.7"/>
 
+        <!-- https://mvnrepository.com/artifact/net.imagej/ij -->
+        <dependency org="net.imagej" name="ij" rev="1.51r"/>
+
+        <!-- https://mvnrepository.com/artifact/org.apache.commons/commons-io -->
+        <dependency org="org.apache.commons" name="commons-io" rev="1.3.2"/>
     </dependencies>
 </ivy-module>

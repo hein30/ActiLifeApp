@@ -2,7 +2,8 @@ package views.models_panel;
 
 import controllers.ModelsPanelController;
 import java.awt.BorderLayout;
-import java.awt.GridLayout;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
 import java.awt.event.ItemEvent;
 import java.util.ArrayList;
 import java.util.List;
@@ -14,6 +15,7 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import models.FileModel;
 import models.ThreeDimensionalModels;
+import org.apache.commons.io.FilenameUtils;
 
 public class OptionsPanel extends JPanel {
 
@@ -25,6 +27,7 @@ public class OptionsPanel extends JPanel {
     private JPanel buttonsPanel;
     private JButton importButton;
     private JButton deleteButton;
+    private JButton generateButton;
 
     public OptionsPanel() {
         setBorder(BorderFactory.createTitledBorder("Options"));
@@ -39,17 +42,24 @@ public class OptionsPanel extends JPanel {
         scrollPane.setBorder(BorderFactory.createEmptyBorder());
         add(scrollPane, BorderLayout.CENTER);
 
-        buttonsPanel = new JPanel();
+        GridBagLayout gridBagLayout = new GridBagLayout();
+        buttonsPanel = new JPanel(gridBagLayout);
         buttonsPanel.setBorder(BorderFactory.createEmptyBorder());
-
-        buttonsPanel.setLayout(new GridLayout(1, 2));
         add(buttonsPanel, BorderLayout.SOUTH);
 
         importButton = createImportButton();
-        deleteButton = createDeleteButton();
-
+        gridBagLayout.setConstraints(importButton, buildGbConstraints(GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL, 0, 0, 0));
         buttonsPanel.add(importButton);
+
+        deleteButton = createDeleteButton();
+        gridBagLayout.setConstraints(deleteButton, buildGbConstraints(GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL, 0, 1, 0));
         buttonsPanel.add(deleteButton);
+
+        generateButton = new JButton("Generate");
+        GridBagConstraints constraints = buildGbConstraints(GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL, 1, 0, 100);
+        constraints.gridwidth = 2;
+        gridBagLayout.setConstraints(generateButton, constraints);
+        buttonsPanel.add(generateButton);
     }
 
     private JButton createDeleteButton() {
@@ -72,7 +82,7 @@ public class OptionsPanel extends JPanel {
     }
 
     private void addCheckBox(FileModel model) {
-        JCheckBox checkBox = new JCheckBox(model.getFileName());
+        JCheckBox checkBox = new JCheckBox(FilenameUtils.removeExtension(model.getFileName()));
         checkBox.addItemListener((ItemEvent e) -> {
             int indexOfChangedItem = checkBoxList.indexOf(e.getItem());
             controller.updateSelection(indexOfChangedItem, e.getStateChange());
@@ -82,5 +92,14 @@ public class OptionsPanel extends JPanel {
         checkBoxList.add(checkBox);
     }
 
+    protected GridBagConstraints buildGbConstraints(int anchor, int fill, int gridy, int gridx, int weightx) {
+        GridBagConstraints gbConstraints = new GridBagConstraints();
+        gbConstraints.anchor = anchor;
+        gbConstraints.fill = fill;
+        gbConstraints.gridy = gridy;
+        gbConstraints.gridx = gridx;
+        gbConstraints.weightx = weightx;
+        return gbConstraints;
+    }
 
 }

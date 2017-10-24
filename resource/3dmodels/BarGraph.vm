@@ -1,0 +1,111 @@
+
+var    interTeethSpacing=10; //from one tooth to the next
+var    toothWidth = 5; // in x axis
+var    toothLength = 0;//20; // in y axis
+var    toothHeight = 3; // in z axis
+
+var    interTeethSpace=interTeethSpacing-toothWidth; // this is the gap between the teeth
+var    numberOfTeeth=8; // 7 days plus the reference
+var    baseWidth=80; // x axis
+var    baseLength=12; // y axis
+var    baseHeight = 3; // z axis
+
+  
+var     totalPA = [18, 20, 13, 4, 11, 5, 12];  
+var     MPA = $mpa;
+var     VPA = $vpa;
+var     reference = 30; // Full VPA one bar
+var     roundness = false;
+
+
+var     teethStartMargin=((interTeethSpacing*(numberOfTeeth-1))+toothWidth)/2; // this is X offset for where to start placing the teeth, note that the teeth are drawn in the negative X direction, necessitating another adjustment in comb    
+
+var     Text = $subjectId;//params.myText1;
+var     cubh = 9; //params.height/2;
+var     cubt = 2;//params.thickness/2;
+var     fwgt = 3;//params.fontweight;
+var     fwth = 100/100*0.33;//params.fontwidth/100*0.33;
+
+
+function comb (width, length, height) 
+{
+    var i = 0;
+    
+    for (i= 0;i<7;i++)
+    {
+        if (MPA[i] === 0)
+            MPA[i] = 0.1;
+            
+        if (VPA[i] === 0)
+            VPA[i] = 0.1;
+
+    }
+ 
+ return union ( 
+      
+    translate([(teethStartMargin-toothWidth - (0 * interTeethSpacing)), (baseLength/2), -1.6],
+    cube ({size : [width, length + VPA[6], height], round: roundness, center:false}),  cube ({size : [width, length + MPA[6], height-1], round: roundness, center:false})),
+    
+    translate([(teethStartMargin-toothWidth - (1 * interTeethSpacing)), (baseLength/2), -1.6],
+    cube ({size : [width, length + VPA[5], height], round: roundness, center:false}),  cube ({size : [width, length + MPA[5], height-1], round: roundness, center:false})),
+  
+    translate([(teethStartMargin-toothWidth - (2 * interTeethSpacing)), (baseLength/2), -1.6],
+    cube ({size : [width, length + VPA[4], height], round: roundness, center:false}),  cube ({size : [width, length + MPA[4], height-1], round: roundness, center:false})),
+    
+    translate([(teethStartMargin-toothWidth - (3 * interTeethSpacing)), (baseLength/2), -1.6],
+    cube ({size : [width, length + VPA[3], height], round: roundness, center:false}),  cube ({size : [width, length + MPA[3], height-1], round: roundness, center:false})),
+
+    translate([(teethStartMargin-toothWidth - (4 * interTeethSpacing)), (baseLength/2), -1.6],
+    cube ({size : [width, length + VPA[2], height], round: roundness, center:false}),  cube ({size : [width, length + MPA[2], height-1], round: roundness, center:false})),
+
+    translate([(teethStartMargin-toothWidth - (5 * interTeethSpacing)), (baseLength/2), -1.6],
+    cube ({size : [width, length + VPA[1], height], round: roundness, center:false}),  cube ({size : [width, length + MPA[1], height-1], round: roundness, center:false})),
+
+    translate([(teethStartMargin-toothWidth - (6 * interTeethSpacing)), (baseLength/2), -1.6],
+    cube ({size : [width, length + VPA[0], height], round: roundness, center:false}),  cube ({size : [width, length + MPA[0], height-1], round: roundness, center:false})),
+
+    translate([(teethStartMargin-toothWidth - (7 * interTeethSpacing)), (baseLength/2), -1.6],
+    cube ({size : [width, length + reference -7, height], round: roundness, center:false})),
+
+    translate([(teethStartMargin-toothWidth - (7 * interTeethSpacing)) + toothWidth/2, reference, 0],
+    rotate([0,0,90],torus({ ri: 3.2, ro: 1.8 , fni:0.5,fno:0.5 })))
+
+    );
+    
+}
+
+
+function TAG(myT1)
+{
+
+  //Text
+  var l = vector_text(0,0,myT1);   // l contains a list of polylines to be drawn
+  var o = [];
+  l.forEach(function(pl){          // pl = polyline (not closed)
+    o.push(rectangular_extrude(pl, {w: fwgt, h: fwgt})); // extrude it to 3D
+  });
+    
+  tag1 = union(o);
+  tag1 = tag1.scale([fwth,0.33,0.5]);
+  
+  cubl = (tag1.getBounds()[1].x - tag1.getBounds()[0].x + 17)/2; //get the width of the text  
+  
+  tag1 = tag1.translate([-cubl+11,-3,cubt-1]);
+ 
+  return tag1;
+
+}
+
+function main ()
+{
+    return union 
+    ( 
+    
+        difference(translate([0, 0, baseHeight-3], cube({size: [baseWidth, baseLength, baseHeight], round:false, center:true})),TAG(Text)),
+    
+        comb (toothWidth, toothLength, toothHeight),
+        
+        translate([ (baseWidth+6)/2, 0, 0 ], torus({ ri: 2.5, ro: 4.5 }))
+    
+    ).setColor(1, 0.3, 0);
+}

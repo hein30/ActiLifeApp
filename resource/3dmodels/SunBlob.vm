@@ -1,0 +1,260 @@
+var     STARTX = 0;
+var     STARTY = 0;
+var     WIDTH = 600;
+var     HEIGHT = 600;
+var     cylresolution = 40;
+var     intensity = 0;
+
+
+//********************************************
+//
+//      PA variables
+//
+//********************************************
+// more intense example
+/*var     totalPA = [22, 22, 26, 28, 30, 25, 29];  
+var     MPA = [8, 14, 2, 5, 1, 1, 12];
+var     VPA = [10, 4, 13, 15, 16, 29, 15];
+*/
+
+var     totalPA = [10, 10, 10, 10, 10, 10, 10];  
+var     MPA = $mpa;
+var     VPA = $vpa;
+
+// less intense example
+/*var     totalPA = [20, 22, 21, 18, 23, 17, 19];  
+var     MPA = [8, 14, 10, 11, 11, 4, 4];
+var     VPA = [8, 4, 9, 5, 16, 9, 11];
+*/
+var     reference = 60; // Full VPA one bar
+var     Text = £objectId;//params.myText1;
+
+//********************************************
+//
+//      End of PA variables
+//
+//********************************************
+
+
+var     cubh = 10; //params.height/2;
+var     cubt = 10;//params.thickness/2;
+var     fwgt = 3;//params.fontweight;
+var     fwth = 100/100*0.33;//params.fontwidth/100*0.33;
+
+var     BlobRadius = 5;
+var     BlobH = 11;
+
+
+var Turtle = function()
+{
+this.X = STARTX;
+this.Y = STARTY;
+this.Z = 4;
+this.Direction = 0;
+this.list = [];
+
+//==============================
+
+this.DrawLine = function(x1,y1,x2,y2)
+{
+    //var obj = rectangular_extrude((cylinder({start: [x1,y1,this.Z], end: [x2,y2,this.Z], r1: 5, r2: 5, fn: 30}), {w: 2, h:10 , closed: false})
+    
+    var obj = rectangular_extrude( [[x1,y1], [x2,y2]], {w: 5, h:8 , closed: false})
+
+    this.list.push(obj);
+}
+//==============================
+
+this.MakeRing = function()
+{
+    x = this.X + 4;
+    y = this.Y + 4;
+    
+    var res = new CSG();
+    var hold = CSG.cylinder({
+        start: [x, y, 0],
+        end: [x, y, 10],
+        radius: 14,
+        resolution: 16
+    });
+  
+    var hold2 = CSG.cylinder({
+    start: [x, y, 0],
+    end: [x, y, 10],
+    radius: 11,
+    resolution: 16
+    });
+  
+  hold = hold.subtract(hold2);
+  //res = res.union(csg);
+  res = res.union(hold);
+  var obj = res;
+  this.list.push(obj);
+  //return res;
+    
+}
+
+//==============================
+
+this.PutDot = function()
+{
+
+	var midx = this.X;//x;//(x * n + 1 * m)/(m+n); //x;
+	var midy = this.Y;//y;//(y * n + 1 * m)/(m+n);//y;
+	
+	var obj = CSG.cylinder({
+	  start: [midx, midy,2],
+	  end: [midx, midy, BlobH],
+	  radius: BlobRadius,
+	  resolution: 16
+	});
+	
+	this.list.push(obj);//return dot;
+}
+
+this.Clear = function()
+{
+this.list = [];
+}
+
+//==============================
+
+this.Draw = function(fltDistance)
+{
+// store current location
+var currentX = this.X;
+var currentY = this.Y;
+
+// calculate new location
+var deltaX = fltDistance * Math.cos(this.Direction);
+var deltaY = fltDistance * Math.sin(this.Direction);
+
+var newX = currentX + deltaX;
+var newY = currentY + deltaY;
+
+// draw line between the two
+this.DrawLine(currentX,currentY,newX,newY);
+
+this.X = newX;
+this.Y = newY;
+}
+
+//=============================================
+this.Move = function(fltDistance)
+{
+// store current location
+var currentX = this.X;
+var currentY = this.Y;
+
+// calculate new location
+var deltaX = fltDistance * Math.cos(this.Direction);
+var deltaY = fltDistance * Math.sin(this.Direction);
+var newX = currentX + deltaX;
+var newY = currentY + deltaY;
+
+this.X = newX;
+this.Y = newY;
+}
+
+//==============================
+
+this.Turn = function(angle)
+{
+var delta = (Math.PI * 2.0 * angle) / 360.0;
+this.Direction += delta;
+}
+
+//==============================
+
+this.GetObjects = function()
+{
+return this.list;
+}
+
+}
+
+function DrawTurtle(t)
+{
+    var i = 0;
+    
+
+    for (i = 0; i<7; i++)
+    {
+        t.Draw(intensity/2);
+        
+        if (VPA[i] !== 0)
+        {
+        
+            t.Draw(VPA[i]);
+        
+            t.PutDot();
+        }      
+        
+        if (MPA[i] !== 0)
+            t.Draw(MPA[i]);
+        
+        t.Move(-(intensity/2 + MPA[i] + VPA[i]));
+    
+        /*
+        //t.Move((intensity + VPA[i]))
+        
+        t.Dot(intensity + VPA[i],i);
+        
+        t.Move(-(intensity + VPA[i]))*/
+        t.Turn(-45);
+        
+        //t.Draw(0.0 + MPA[i] + VPA[i],i);
+        //t.Move(-(0.0 + MPA[i] + VPA[i]));
+        //t.Turn(-45);
+    }
+    
+    t.Draw(intensity/2 + reference, 7);
+    t.MakeRing();
+
+    return t.GetObjects();
+    
+}
+
+function TAG(myT1)
+{
+
+  var l = vector_text(0,0,myT1);   // l contains a list of polylines to be drawn
+  var o = [];
+  l.forEach(function(pl){          // pl = polyline (not closed)
+    o.push(rectangular_extrude(pl, {w: fwgt, h: fwgt})); // extrude it to 3D
+  });
+    
+  tag1 = union(o);
+  tag1 = tag1.scale([fwth,0.33,0.5]);
+  
+  cubl = (tag1.getBounds()[1].x - tag1.getBounds()[0].x + 17)/2; //get the width of the text  
+  
+  tag1 = tag1.translate([-cubl+8,-4,cubt-1]);
+
+  return tag1;
+}
+
+function IntensityCircle()
+{
+//calculate the total PA per week to adjust the size of middle circle    
+ for (i=0; i<VPA.length; i++)
+   		intensity = intensity + totalPA[i];
+ 
+ return intensity;    
+}
+ 
+function main()
+{
+  
+    var tu = new Turtle();
+    var circlR = IntensityCircle();
+  
+    return union
+    (
+        translate([0, 0, 1],DrawTurtle(tu)),
+        //translate([0, 0, 0],cylinder({d1: circlR, d2: circlR, h: 10}),TAG(Text).rotateZ(-45))
+        difference(translate([0, 0, 0],cylinder({d1: circlR, d2: circlR, h: 10})),TAG(Text).rotateZ(-45))
+
+    ).setColor(1, 0.3, 0).scale(0.5);
+
+}
