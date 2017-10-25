@@ -10,8 +10,7 @@ public class ModelsPanel extends JPanel {
 
     private ThreeDModelsInfoPanel threeDModelsInfoPanel;
     private OptionsPanel optionsPanel;
-
-    private ModelsPanelController controller;
+    private ButtonPanel buttonPanel;
 
     public ModelsPanel() {
         setLayout(new BorderLayout());
@@ -22,11 +21,14 @@ public class ModelsPanel extends JPanel {
 
         optionsPanel = new OptionsPanel();
         add(optionsPanel, BorderLayout.CENTER);
+
+        buttonPanel = new ButtonPanel();
+        add(buttonPanel, BorderLayout.SOUTH);
     }
 
     public void setController(ModelsPanelController controller) {
-        this.controller = controller;
         optionsPanel.setController(controller);
+        buttonPanel.setController(controller);
     }
 
     public void updateModelInfo(ThreeDimensionalModels models) {

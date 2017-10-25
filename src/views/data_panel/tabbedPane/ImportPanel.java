@@ -58,6 +58,7 @@ public class ImportPanel extends JPanel {
 
         JButton deleteButton = new JButton("Remove");
         buttonPanel.add(deleteButton);
+        //todo delete function
 
         add(buttonPanel, BorderLayout.SOUTH);
     }
