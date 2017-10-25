@@ -12,7 +12,10 @@ import java.awt.dnd.DropTargetListener;
 import java.io.File;
 import java.io.IOException;
 import java.util.List;
+import java.util.function.Predicate;
+import java.util.stream.Collectors;
 import javax.swing.JTabbedPane;
+import models.FileModel;
 import models.ImportedData;
 
 public class TabbedPane extends JTabbedPane {
@@ -63,16 +66,28 @@ public class TabbedPane extends JTabbedPane {
 
                 dtde.acceptDrop(DnDConstants.ACTION_COPY_OR_MOVE);
                 try {
+                    //get all the dropped files.
                     List<File> files = (List<File>) dtde.getTransferable().getTransferData(DataFlavor.javaFileListFlavor);
 
-                    System.out.println("drop");
+                    List<FileModel> fileModels = files.stream().filter(fileExtensionFilter()).map(FileModel::new).collect(Collectors.toList());
+                    dataPanelController.importFile(fileModels);
                 } catch (UnsupportedFlavorException e) {
                     e.printStackTrace();
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
             }
+
         });
+    }
+
+    /**
+     * Filter the dropped files using file type.
+     *
+     * @return
+     */
+    private Predicate<File> fileExtensionFilter() {
+        return file -> file.getName().endsWith(".xlsx");
     }
 
     public void setController(DataPanelController controller) {
