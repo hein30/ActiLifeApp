@@ -1,8 +1,6 @@
 package views.models_panel;
 
 import controllers.ModelsPanelController;
-import java.awt.BorderLayout;
-import java.awt.GridBagLayout;
 import java.awt.event.ItemEvent;
 import java.util.ArrayList;
 import java.util.List;
@@ -15,32 +13,22 @@ import models.FileModel;
 import models.ThreeDimensionalModels;
 import org.apache.commons.io.FilenameUtils;
 
-public class OptionsPanel extends JPanel {
+public class OptionsPanel extends JScrollPane {
 
     private ModelsPanelController controller;
 
     private List<JCheckBox> checkBoxList;
-    private JScrollPane scrollPane;
     private JPanel checkboxPanel;
-    private JPanel buttonsPanel;
 
     public OptionsPanel() {
-        setBorder(BorderFactory.createTitledBorder("Options"));
+        setBorder(BorderFactory.createTitledBorder("3D Models"));
 
         checkBoxList = new ArrayList<>();
-        setLayout(new BorderLayout());
 
         checkboxPanel = new JPanel();
         checkboxPanel.setLayout(new BoxLayout(checkboxPanel, BoxLayout.Y_AXIS));
 
-        scrollPane = new JScrollPane(checkboxPanel);
-        scrollPane.setBorder(BorderFactory.createEmptyBorder());
-        add(scrollPane, BorderLayout.CENTER);
-
-        GridBagLayout gridBagLayout = new GridBagLayout();
-        buttonsPanel = new JPanel(gridBagLayout);
-        buttonsPanel.setBorder(BorderFactory.createEmptyBorder());
-        add(buttonsPanel, BorderLayout.SOUTH);
+        setViewportView(checkboxPanel);
     }
 
     public void setController(ModelsPanelController controller) {
