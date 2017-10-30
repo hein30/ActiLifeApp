@@ -1,22 +1,24 @@
 package controllers;
 
+import java.awt.BorderLayout;
+import java.awt.Dimension;
+import java.awt.Toolkit;
 import java.io.File;
-import java.io.FileWriter;
 import java.io.IOException;
 import java.net.URL;
 import java.net.URLDecoder;
 import java.util.List;
 import java.util.StringJoiner;
+import javax.swing.JDialog;
 import javax.swing.JFileChooser;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JProgressBar;
 import models.FileModel;
 import models.ImportedData;
-import models.Subject;
-import models.Subjects;
 import models.ThreeDimensionalModels;
-import org.apache.commons.io.FilenameUtils;
-import org.apache.velocity.Template;
-import org.apache.velocity.VelocityContext;
-import org.apache.velocity.app.VelocityEngine;
+import utils.FileGenerator;
 import views.MainWindow;
 import views.models_panel.ModelsPanel;
 
@@ -49,6 +51,9 @@ public class ModelsPanelController extends BaseController {
     private ImportedData importedData;
 
     private File defaultDestinationFolder;
+
+    private JProgressBar jProgressBar;
+    private JDialog dialog;
 
     public ModelsPanelController(MainWindow mainWindow, ThreeDimensionalModels models, ImportedData importedData) {
         StringJoiner sj = new StringJoiner(File.separator);
@@ -111,6 +116,7 @@ public class ModelsPanelController extends BaseController {
     @Override
     public void updateGeneratedFilesView(File defaultDestinationFolder) {
         dataPanelController.updateGeneratedFilesView(this.defaultDestinationFolder);
+        dialog.dispose();
     }
 
     /**
@@ -128,88 +134,30 @@ public class ModelsPanelController extends BaseController {
 
         if (returnVal == JFileChooser.APPROVE_OPTION) {
             defaultDestinationFolder = destChooser.getSelectedFile();
-            generateFiles();
 
-            updateGeneratedFilesView(this.defaultDestinationFolder);
+            jProgressBar = new JProgressBar(0, models.getNumOfSelectedModels() * importedData.getNumPeople());
+            jProgressBar.setPreferredSize(new Dimension(300, 20));
+            jProgressBar.setString("Generating files (0 of " + jProgressBar.getMaximum() + "...");
+            jProgressBar.setValue(0);
+            jProgressBar.setStringPainted(true);
+
+            JLabel jLabel = new JLabel("Progress: ");
+
+            JPanel panel = new JPanel();
+            panel.add(jLabel);
+            panel.add(jProgressBar);
+
+            dialog = new JDialog((JFrame) null, "Generating files");
+            dialog.getContentPane().add(panel, BorderLayout.CENTER);
+            dialog.pack();
+            dialog.setLocation((Toolkit.getDefaultToolkit().getScreenSize().width) / 2 - dialog.getWidth() / 2, (Toolkit.getDefaultToolkit().getScreenSize().height) / 2 - dialog.getHeight() / 2);
+
+            dialog.setVisible(true);
+
+            FileGenerator fileGenerator = new FileGenerator(this, jProgressBar, importedData, models, defaultDestinationFolder);
+            Thread fileGenerationThread = new Thread(fileGenerator);
+            fileGenerationThread.start();
         }
-
-
-    }
-
-    private void generateFiles() {
-        importedData.getFileMap().forEach((k, v) -> generateFilesForOneImportFile(k, v));
-    }
-
-    private void generateFilesForOneImportFile(String fileName, Subjects subjects) {
-        String folderForThisImportFile = defaultDestinationFolder.getAbsolutePath() + File.separator
-                + fileName;
-
-        File folderForThisImport = new File(folderForThisImportFile);
-        folderForThisImport.mkdirs();
-
-
-        for (FileModel model : models.getSelectedModels()) {
-
-            Template template = buildTemplate(model);
-
-            subjects.getSubjectList().forEach(subject -> generateFile(subject, model, folderForThisImportFile, template));
-        }
-
-        System.out.println("");
-    }
-
-    private Template buildTemplate(FileModel model) {
-        VelocityEngine engine = new VelocityEngine();
-        engine.setProperty("file.resource.loader.path", model.getFile().getParent());
-        engine.init();
-
-        return engine.getTemplate(model.getFile().getName());
-    }
-
-    private void generateFile(Subject subject, FileModel model, String folderForThisImportFile, Template template) {
-        VelocityContext context = buildContext(subject);
-        String outputFile = folderForThisImportFile + File.separator + subject.getSubjectId() + "_" + FilenameUtils.removeExtension(model.getFileName());
-        String outputJSCADFile = outputFile + ".jscad";
-        String outputSTLFile = outputFile + ".stl";
-
-        try {
-            FileWriter writer = new FileWriter(outputJSCADFile);
-            template.merge(context, writer);
-            writer.close();
-
-            generateSTLFile(outputJSCADFile, outputSTLFile);
-
-        } catch (IOException e) {
-            e.printStackTrace();
-            System.out.println("error writing jscad file.");
-
-            //todo add more information here in case it failed and throw exception.
-        }
-    }
-
-    private void generateSTLFile(String outputJSCADFile, String outputSTLFile) {
-
-        StringBuffer output = new StringBuffer();
-
-        try {
-            Process p = Runtime.getRuntime().exec(new String[]{openJscadCMD, outputJSCADFile});
-            p.waitFor();
-        } catch (IOException e) {
-            e.printStackTrace();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-    }
-
-    private VelocityContext buildContext(Subject subject) {
-        VelocityContext context = new VelocityContext();
-        context.put("subjectId", "'" + subject.getSubjectId() + "'");
-        context.put("mpa", subject.getModerate().toString());
-        context.put("vpa", subject.getVigorous().toString());
-        context.put("lpa", subject.getLight().toString());
-        context.put("spa", subject.getSedentary().toString());
-
-        return context;
     }
 
     public void setDataPanelController(DataPanelController dataPanelController) {
