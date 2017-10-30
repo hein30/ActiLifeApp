@@ -22,6 +22,7 @@ public class App {
         mw.setDataPanelController(dataPanelController);
 
         ModelsPanelController modelsPanelController = new ModelsPanelController(mw, models, importedData);
+        modelsPanelController.setDataPanelController(dataPanelController);
         mw.setModelsPanelController(modelsPanelController);
     }
 }

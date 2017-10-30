@@ -27,7 +27,7 @@ var     MPA = [8, 14, 10, 11, 11, 4, 4];
 var     VPA = [8, 4, 9, 5, 16, 9, 11];
 */
 var     reference = 60; // Full VPA one bar
-var     Text = £objectId;//params.myText1;
+var     Text = $subjectId;//params.myText1;
 
 //********************************************
 //

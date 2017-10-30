@@ -42,6 +42,8 @@ public class ModelsPanelController extends BaseController {
                 "AppData" + File.separator + "Roaming" + File.separator + "npm" + File.separator + "openjscad.cmd";
     }
 
+    private DataPanelController dataPanelController;
+
     private ModelsPanel modelsPanel;
     private ThreeDimensionalModels models;
     private ImportedData importedData;
@@ -106,6 +108,11 @@ public class ModelsPanelController extends BaseController {
 
     }
 
+    @Override
+    public void updateGeneratedFilesView(File defaultDestinationFolder) {
+        dataPanelController.updateGeneratedFilesView(this.defaultDestinationFolder);
+    }
+
     /**
      * Generate 3D model OpenJSCAD file and subsequently STL files.
      */
@@ -122,6 +129,8 @@ public class ModelsPanelController extends BaseController {
         if (returnVal == JFileChooser.APPROVE_OPTION) {
             defaultDestinationFolder = destChooser.getSelectedFile();
             generateFiles();
+
+            updateGeneratedFilesView(this.defaultDestinationFolder);
         }
 
 
@@ -203,5 +212,7 @@ public class ModelsPanelController extends BaseController {
         return context;
     }
 
-
+    public void setDataPanelController(DataPanelController dataPanelController) {
+        this.dataPanelController = dataPanelController;
+    }
 }

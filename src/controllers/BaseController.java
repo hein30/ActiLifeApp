@@ -1,5 +1,6 @@
 package controllers;
 
+import java.io.File;
 import java.util.List;
 import models.FileModel;
 
@@ -11,4 +12,7 @@ public abstract class BaseController {
     public abstract void importFile(List<FileModel> files);
 
     public abstract void deleteFile();
+
+    public abstract void updateGeneratedFilesView(File defaultDestinationFolder);
+
 }

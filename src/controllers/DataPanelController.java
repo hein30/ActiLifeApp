@@ -1,5 +1,6 @@
 package controllers;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.List;
 import models.FileModel;
@@ -15,6 +16,7 @@ public class DataPanelController extends BaseController {
         this.dataPanel = mw.getDataPanel();
         this.data = data;
     }
+
 
     private void updateDataViews() {
         dataPanel.updateDataViews(data);
@@ -33,5 +35,10 @@ public class DataPanelController extends BaseController {
     @Override
     public void deleteFile() {
 
+    }
+
+    @Override
+    public void updateGeneratedFilesView(File defaultDestinationFolder) {
+        dataPanel.updateGenerateFilesView(defaultDestinationFolder);
     }
 }

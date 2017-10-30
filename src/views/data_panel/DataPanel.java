@@ -2,6 +2,7 @@ package views.data_panel;
 
 import controllers.DataPanelController;
 import java.awt.BorderLayout;
+import java.io.File;
 import javax.swing.BorderFactory;
 import javax.swing.JPanel;
 import models.ImportedData;
@@ -30,6 +31,11 @@ public class DataPanel extends JPanel {
 
         tabbedPane.updateView(data);
         tabbedPane.setSelectedIndex(1);
+    }
+
+    public void updateGenerateFilesView(File rootDirectory) {
+        tabbedPane.updateGenerateFilesView(rootDirectory);
+        tabbedPane.setSelectedIndex(2);
     }
 
     public void setController(DataPanelController controller) {
