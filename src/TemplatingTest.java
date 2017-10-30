@@ -13,7 +13,7 @@ public class TemplatingTest {
         VelocityEngine templateEngine = new VelocityEngine();
         templateEngine.init();
 
-        Template template = templateEngine.getTemplate("test.vm");
+        Template template = templateEngine.getTemplate(f.getAbsolutePath());
 
         VelocityContext context = new VelocityContext();
         context.put("mpa", Arrays.asList(1, 2, 3, 4, 5).toString());

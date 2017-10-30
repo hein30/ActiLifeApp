@@ -48,9 +48,7 @@ public class ButtonPanel extends JPanel {
         add(deleteButton);
 
         generateButton = new JButton("Generate");
-        generateButton.addActionListener((ActionEvent e) -> {
-            //todo add generate function here.
-        });
+        generateButton.addActionListener((ActionEvent e) -> controller.generateModels());
         GridBagConstraints generateButtonConstraints = new GridBagConstraints();
         generateButtonConstraints.gridy = 1;
         generateButtonConstraints.gridx = 0;

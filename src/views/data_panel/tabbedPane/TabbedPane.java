@@ -1,21 +1,9 @@
 package views.data_panel.tabbedPane;
 
 import controllers.DataPanelController;
-import java.awt.datatransfer.DataFlavor;
-import java.awt.datatransfer.UnsupportedFlavorException;
-import java.awt.dnd.DnDConstants;
+import controllers.ImportDragAndDrop;
 import java.awt.dnd.DropTarget;
-import java.awt.dnd.DropTargetDragEvent;
-import java.awt.dnd.DropTargetDropEvent;
-import java.awt.dnd.DropTargetEvent;
-import java.awt.dnd.DropTargetListener;
-import java.io.File;
-import java.io.IOException;
-import java.util.List;
-import java.util.function.Predicate;
-import java.util.stream.Collectors;
 import javax.swing.JTabbedPane;
-import models.FileModel;
 import models.ImportedData;
 
 public class TabbedPane extends JTabbedPane {
@@ -23,7 +11,7 @@ public class TabbedPane extends JTabbedPane {
     private ImportPanel importPanel;
     private DataPanelCopy dataPanel;
 
-    private DataPanelController dataPanelController;
+    private ImportDragAndDrop dragAndDropListener;
 
     public TabbedPane() {
         importPanel = new ImportPanel();
@@ -44,57 +32,14 @@ public class TabbedPane extends JTabbedPane {
      * Implement Drag and Drop operation.
      */
     private void enableDragAndDrop() {
-        DropTarget target = new DropTarget(this, new DropTargetListener() {
-            @Override
-            public void dragEnter(DropTargetDragEvent dtde) {
-            }
-
-            @Override
-            public void dragOver(DropTargetDragEvent dtde) {
-            }
-
-            @Override
-            public void dropActionChanged(DropTargetDragEvent dtde) {
-            }
-
-            @Override
-            public void dragExit(DropTargetEvent dte) {
-            }
-
-            @Override
-            public void drop(DropTargetDropEvent dtde) {
-
-                dtde.acceptDrop(DnDConstants.ACTION_COPY_OR_MOVE);
-                try {
-                    //get all the dropped files.
-                    List<File> files = (List<File>) dtde.getTransferable().getTransferData(DataFlavor.javaFileListFlavor);
-
-                    List<FileModel> fileModels = files.stream().filter(fileExtensionFilter()).map(FileModel::new).collect(Collectors.toList());
-                    dataPanelController.importFile(fileModels);
-                } catch (UnsupportedFlavorException e) {
-                    e.printStackTrace();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
-
-        });
+        dragAndDropListener = new ImportDragAndDrop();
+        new DropTarget(this, dragAndDropListener);
     }
 
-    /**
-     * Filter the dropped files using file type.
-     *
-     * @return
-     */
-    private Predicate<File> fileExtensionFilter() {
-        return file -> file.getName().endsWith(".xlsx");
-    }
 
     public void setController(DataPanelController controller) {
-        this.dataPanelController = controller;
 
         importPanel.setController(controller);
+        dragAndDropListener.setController(controller);
     }
-
-
 }

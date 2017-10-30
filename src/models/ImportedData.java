@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import org.apache.commons.io.FilenameUtils;
 
 public class ImportedData {
 
@@ -19,7 +20,7 @@ public class ImportedData {
      * @param file
      */
     public void addFile(FileModel file) throws IOException {
-        fileMap.put(file.getFileName(), new Subjects(file));
+        fileMap.put(FilenameUtils.removeExtension(file.getFileName()), new Subjects(file));
     }
 
     /**

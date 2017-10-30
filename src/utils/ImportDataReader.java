@@ -3,8 +3,9 @@ package utils;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -52,14 +53,18 @@ public class ImportDataReader {
             subjectMap.computeIfAbsent(subjectId, s -> new Subject(s));
             Subject currentSubject = subjectMap.get(subjectId);
 
-            currentSubject.addSendentary(currentRow.getCell(colIdOfSedentary).getNumericCellValue());
-            currentSubject.addLight(currentRow.getCell(colIdOfLight).getNumericCellValue());
-            currentSubject.addModerate(currentRow.getCell(colIdOfModerate).getNumericCellValue());
-            currentSubject.addVigorous(currentRow.getCell(colIdOfVigorous).getNumericCellValue());
+            currentSubject.addSendentary(roundedValue(currentRow.getCell(colIdOfSedentary).getNumericCellValue()));
+            currentSubject.addLight(roundedValue(currentRow.getCell(colIdOfLight).getNumericCellValue()));
+            currentSubject.addModerate(roundedValue(currentRow.getCell(colIdOfModerate).getNumericCellValue()));
+            currentSubject.addVigorous(roundedValue(currentRow.getCell(colIdOfVigorous).getNumericCellValue()));
             currentSubject.addDay(currentRow.getCell(colIdOfOrderOfDays).getStringCellValue());
         }
 
         return new ArrayList<>(subjectMap.values());
+    }
+
+    private static double roundedValue(double value) {
+        return new BigDecimal(value).setScale(2, RoundingMode.HALF_UP).doubleValue();
     }
 
     private static int getColIdOfHeader(String header, Row headerRow) {
@@ -76,5 +81,6 @@ public class ImportDataReader {
         //todo throw exception.
         return 0;
     }
+
 
 }
