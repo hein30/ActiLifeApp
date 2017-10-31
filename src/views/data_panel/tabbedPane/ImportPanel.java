@@ -5,7 +5,6 @@ import controllers.FileChooser;
 import java.awt.BorderLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import javax.swing.BorderFactory;
 import javax.swing.DefaultListModel;
 import javax.swing.JButton;
@@ -59,14 +58,8 @@ public class ImportPanel extends JPanel {
         buttonPanel.add(importButton);
 
         JButton deleteButton = new JButton("Remove");
-        deleteButton.addActionListener((ActionEvent e)->{
-            listOfFiles.getSelectedValuesList().forEach(x -> System.out.println("Selected " + x));
-            controller.deleteFile(listOfFiles.getSelectedValuesList());
-
-        });
+        deleteButton.addActionListener((ActionEvent e) -> controller.deleteFile(listOfFiles.getSelectedValuesList()));
         buttonPanel.add(deleteButton);
-        //todo delete function
-
         add(buttonPanel, BorderLayout.SOUTH);
     }
 }

@@ -1,4 +1,5 @@
 import controllers.DataPanelController;
+import controllers.LogController;
 import controllers.ModelsPanelController;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
@@ -18,10 +19,12 @@ public class App {
 
         MainWindow mw = new MainWindow();
 
-        DataPanelController dataPanelController = new DataPanelController(mw, importedData);
+        LogController logger = new LogController(mw);
+
+        DataPanelController dataPanelController = new DataPanelController(mw, importedData, logger);
         mw.setDataPanelController(dataPanelController);
 
-        ModelsPanelController modelsPanelController = new ModelsPanelController(mw, models, importedData);
+        ModelsPanelController modelsPanelController = new ModelsPanelController(mw, models, importedData, logger);
         modelsPanelController.setDataPanelController(dataPanelController);
         mw.setModelsPanelController(modelsPanelController);
     }

@@ -9,6 +9,7 @@ import java.net.URL;
 import java.net.URLDecoder;
 import java.util.List;
 import java.util.StringJoiner;
+import java.util.stream.Collectors;
 import javax.swing.JDialog;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
@@ -18,6 +19,7 @@ import javax.swing.JProgressBar;
 import models.FileModel;
 import models.ImportedData;
 import models.ThreeDimensionalModels;
+import org.apache.commons.io.FilenameUtils;
 import utils.FileGenerator;
 import views.MainWindow;
 import views.models_panel.ModelsPanel;
@@ -30,21 +32,8 @@ import views.models_panel.ModelsPanel;
  * @author Hein Min Htike
  */
 public class ModelsPanelController extends BaseController {
-
-    private static final String openJscadCMD;
-
-    static {
-        // todo open jscad command should be made to work with Linux/Mac
-        openJscadCMD = "C:" +
-                File.separator +
-                "Users" +
-                File.separator +
-                System.getProperty("user.name") +
-                File.separator +
-                "AppData" + File.separator + "Roaming" + File.separator + "npm" + File.separator + "openjscad.cmd";
-    }
-
     private DataPanelController dataPanelController;
+    private LogController logger;
 
     private ModelsPanel modelsPanel;
     private ThreeDimensionalModels models;
@@ -55,18 +44,14 @@ public class ModelsPanelController extends BaseController {
     private JProgressBar jProgressBar;
     private JDialog dialog;
 
-    public ModelsPanelController(MainWindow mainWindow, ThreeDimensionalModels models, ImportedData importedData) {
-        StringJoiner sj = new StringJoiner(File.separator);
-        sj.add(System.getProperty("user.home"));
-        sj.add("Documents");
-        sj.add("ActiLife Automation");
-
-        defaultDestinationFolder = new File(sj.toString());
-        defaultDestinationFolder.mkdirs();
+    public ModelsPanelController(MainWindow mainWindow, ThreeDimensionalModels models, ImportedData importedData, LogController logger) {
 
         this.modelsPanel = mainWindow.getModelsPanel();
         this.models = models;
         this.importedData = importedData;
+        this.logger = logger;
+
+        buildDefaultDestinationFolder();
 
         try {
             loadModels();
@@ -76,6 +61,16 @@ public class ModelsPanelController extends BaseController {
         }
 
         initialiseModelsPanelInformation();
+    }
+
+    private void buildDefaultDestinationFolder() {
+        StringJoiner sj = new StringJoiner(File.separator);
+        sj.add(System.getProperty("user.home"));
+        sj.add("Documents");
+        sj.add("ActiLife Automation");
+
+        defaultDestinationFolder = new File(sj.toString());
+        defaultDestinationFolder.mkdirs();
     }
 
     /**
@@ -105,16 +100,17 @@ public class ModelsPanelController extends BaseController {
 
     @Override
     public void importFile(List<FileModel> files) {
-
+//todo handle importing templates
     }
 
     @Override
     public void deleteFile(List fileNamesToDelete) {
-
+//todo handle removing templates
     }
 
     @Override
     public void updateGeneratedFilesView(File defaultDestinationFolder) {
+        logger.logInfo("3D model generation completed.");
         dataPanelController.updateGeneratedFilesView(this.defaultDestinationFolder);
         dialog.dispose();
     }
@@ -123,6 +119,8 @@ public class ModelsPanelController extends BaseController {
      * Generate 3D model OpenJSCAD file and subsequently STL files.
      */
     public void generateModels() {
+        logger.logInfo("3D model generation starting.");
+        logger.logInfo("Selected models: " + models.getSelectedModels().stream().map(FileModel::getFileName).map(fileName -> FilenameUtils.removeExtension(fileName)).collect(Collectors.toList()).toString());
 
         JFileChooser destChooser = new JFileChooser();
         destChooser.setDialogTitle("Choose destination");
@@ -134,6 +132,7 @@ public class ModelsPanelController extends BaseController {
 
         if (returnVal == JFileChooser.APPROVE_OPTION) {
             defaultDestinationFolder = destChooser.getSelectedFile();
+            logger.logInfo("Saving models to " + defaultDestinationFolder.getAbsolutePath());
 
             jProgressBar = new JProgressBar(0, models.getNumOfSelectedModels() * importedData.getNumPeople());
             jProgressBar.setPreferredSize(new Dimension(300, 20));
@@ -157,6 +156,8 @@ public class ModelsPanelController extends BaseController {
             FileGenerator fileGenerator = new FileGenerator(this, jProgressBar, importedData, models, defaultDestinationFolder);
             Thread fileGenerationThread = new Thread(fileGenerator);
             fileGenerationThread.start();
+        } else {
+            logger.logInfo("3D model generation cancelled.");
         }
     }
 

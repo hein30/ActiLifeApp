@@ -41,7 +41,7 @@ public class DataPanel extends JScrollPane {
         subjects.getSubjectList().forEach(subject -> defaultListModel.addElement(subject.getSubjectId()));
 
         JList jList = new JList(defaultListModel);
-        jList.setFixedCellWidth(100);
+        jList.setFixedCellWidth(75);
         jList.setLayoutOrientation(JList.VERTICAL_WRAP);
 
         JScrollPane paneForOneFile = new JScrollPane(jList);
