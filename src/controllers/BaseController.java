@@ -11,7 +11,7 @@ public abstract class BaseController {
 
     public abstract void importFile(List<FileModel> files);
 
-    public abstract void deleteFile();
+    public abstract void deleteFile(List fileNamesToDelete);
 
     public abstract void updateGeneratedFilesView(File defaultDestinationFolder);
 

@@ -10,7 +10,7 @@ import models.ImportedData;
 public class TabbedPane extends JTabbedPane {
 
     private ImportPanel importPanel;
-    private DataPanelCopy dataPanel;
+    private DataPanel dataPanel;
     private GeneratedFilesPanel generatedFilesPanel;
 
     private ImportDragAndDrop dragAndDropListener;
@@ -19,7 +19,7 @@ public class TabbedPane extends JTabbedPane {
         importPanel = new ImportPanel();
         add("Import", importPanel);
 
-        dataPanel = new DataPanelCopy();
+        dataPanel = new DataPanel();
         add("Data", dataPanel);
 
         generatedFilesPanel = new GeneratedFilesPanel();

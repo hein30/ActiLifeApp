@@ -109,7 +109,7 @@ public class ModelsPanelController extends BaseController {
     }
 
     @Override
-    public void deleteFile() {
+    public void deleteFile(List fileNamesToDelete) {
 
     }
 

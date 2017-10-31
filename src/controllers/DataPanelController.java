@@ -33,8 +33,9 @@ public class DataPanelController extends BaseController {
     }
 
     @Override
-    public void deleteFile() {
-
+    public void deleteFile(List fileNamesToDelete) {
+        fileNamesToDelete.forEach(name -> data.getFileMap().remove(name));
+        updateDataViews();
     }
 
     @Override
