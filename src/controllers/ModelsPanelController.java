@@ -27,7 +27,6 @@ import views.models_panel.ModelsPanel;
 /**
  * Controller for {@link views.models_panel.ModelsPanel}.
  * <p>
- * todo move the file generation code to a new class on a different thread.
  *
  * @author Hein Min Htike
  */

@@ -4,6 +4,9 @@ import controllers.ModelsPanelController;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
+import java.net.URL;
+import java.net.URLDecoder;
 import javax.swing.JProgressBar;
 import models.FileModel;
 import models.ImportedData;
@@ -17,17 +20,24 @@ import org.apache.velocity.app.VelocityEngine;
 
 public class FileGenerator implements Runnable {
 
-    private static final String openJscadCMD;
+    private static final String openJSCAD;
 
     static {
         // todo open jscad command should be made to work with Linux/Mac
-        openJscadCMD = "C:" +
-                File.separator +
-                "Users" +
-                File.separator +
-                System.getProperty("user.name") +
-                File.separator +
-                "AppData" + File.separator + "Roaming" + File.separator + "npm" + File.separator + "openjscad.cmd";
+        String fileName = System.getProperty("os.name").contains("Windows") ? "openjscad.cmd" : "openjscad";
+
+        URL url = ClassLoader.getSystemResource("openjscad");
+        String path = null;
+        try {
+            path = URLDecoder.decode(url.getPath(), System.getProperty("file.encoding"));
+
+        } catch (UnsupportedEncodingException e) {
+            //todo throw exception here to notify that openjscad library is missing.
+            System.out.println("Missing openjscad library");
+            e.printStackTrace();
+        }
+
+        openJSCAD = path + File.separator + fileName;
     }
 
     private JProgressBar jProgressBar;
@@ -102,7 +112,7 @@ public class FileGenerator implements Runnable {
         StringBuffer output = new StringBuffer();
 
         try {
-            Process p = Runtime.getRuntime().exec(new String[]{openJscadCMD, outputJSCADFile});
+            Process p = Runtime.getRuntime().exec(new String[]{openJSCAD, outputJSCADFile});
             p.waitFor();
         } catch (IOException e) {
             e.printStackTrace();
