@@ -38,6 +38,17 @@ public class FileGenerator implements Runnable {
         }
 
         openJSCAD = path + File.separator + fileName;
+
+        if (openJSCAD.endsWith("openjscad")) {
+
+            try {
+                Process p = Runtime.getRuntime().exec("chmod a+x " + openJSCAD);
+                p.waitFor();
+            } catch (IOException | InterruptedException e) {
+                System.out.println("Failed to set permissions");
+                e.printStackTrace();
+            }
+        }
     }
 
     private JProgressBar jProgressBar;
