@@ -163,4 +163,12 @@ public class ModelsPanelController extends BaseController {
     public void setDataPanelController(DataPanelController dataPanelController) {
         this.dataPanelController = dataPanelController;
     }
+
+    public void logError(String s) {
+        logger.logError(s);
+    }
+
+    public void log(String s) {
+        logger.logInfo(s);
+    }
 }

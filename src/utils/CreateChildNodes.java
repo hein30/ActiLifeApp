@@ -43,6 +43,10 @@ public class CreateChildNodes implements Runnable {
             this.file = file;
         }
 
+        public File getFile() {
+            return file;
+        }
+
         @Override
         public String toString() {
             String name = file.getName();
@@ -53,5 +57,4 @@ public class CreateChildNodes implements Runnable {
             }
         }
     }
-
 }

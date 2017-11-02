@@ -1,9 +1,11 @@
 package utils;
 
 import controllers.ModelsPanelController;
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.io.UnsupportedEncodingException;
 import java.net.URL;
 import java.net.URLDecoder;
@@ -112,24 +114,36 @@ public class FileGenerator implements Runnable {
 
         } catch (IOException e) {
             e.printStackTrace();
+            controller.logError("Error while writing to jscadd");
+            controller.logError(e.toString());
             System.out.println("error writing jscad file.");
-
             //todo add more information here in case it failed and throw exception.
         }
     }
 
     private void generateSTLFile(String outputJSCADFile, String outputSTLFile) {
-
         StringBuffer output = new StringBuffer();
+        controller.log("Generating a stl");
 
         try {
+
             Process p = Runtime.getRuntime().exec(new String[]{openJSCAD, outputJSCADFile});
             p.waitFor();
-        } catch (IOException e) {
+
+            BufferedReader reader =
+                    new BufferedReader(new InputStreamReader(p.getInputStream()));
+
+            String line = "";
+            while ((line = reader.readLine()) != null) {
+                output.append(line + "\n");
+            }
+        } catch (IOException | InterruptedException e) {
             e.printStackTrace();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
+            controller.logError("Error generating .stl files.");
+            controller.logError(e.toString());
         }
+
+        controller.log(output.toString());
     }
 
     private VelocityContext buildContext(Subject subject) {
