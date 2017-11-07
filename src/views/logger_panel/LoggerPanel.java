@@ -26,9 +26,11 @@ public class LoggerPanel extends JScrollPane {
 
     public void addLog(String string) {
         textArea.append(DATE_TIME_FORMATTER.format(LocalDateTime.now()) + " [INFO]: " + string + "\n");
+        textArea.setCaretPosition(textArea.getDocument().getLength());
     }
 
     public void addErrorLog(String string) {
         textArea.append(DATE_TIME_FORMATTER.format(LocalDateTime.now()) + " [ERROR]: " + string + "\n");
+        textArea.setCaretPosition(textArea.getDocument().getLength());
     }
 }

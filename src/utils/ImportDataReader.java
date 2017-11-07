@@ -28,7 +28,7 @@ public class ImportDataReader {
 
     public static List<Subject> readImportedFile(File importFile) throws IOException {
 
-        Map<String, Subject> subjectMap = new TreeMap<>();
+        Map<String, Subject> filenameMap = new TreeMap<>();
 
         FileInputStream excelFile = new FileInputStream(importFile);
         Workbook workbook = new XSSFWorkbook(excelFile);
@@ -38,6 +38,7 @@ public class ImportDataReader {
 
         Row headerRow = rows.next();
 
+        int colIdOfFileName = getColIdOfHeader("Filename", headerRow);
         int colIdOfSubject = getColIdOfHeader("Subject", headerRow);
         int colIdOfSedentary = getColIdOfHeader("Sedentary", headerRow);
         int colIdOfLight = getColIdOfHeader("Light", headerRow);
@@ -48,10 +49,11 @@ public class ImportDataReader {
         while (rows.hasNext()) {
             Row currentRow = rows.next();
             String subjectId = currentRow.getCell(colIdOfSubject).getStringCellValue();
+            String fileName = currentRow.getCell(colIdOfFileName).getStringCellValue();
 
             //add new Subject if it is not already in the list.
-            subjectMap.computeIfAbsent(subjectId, s -> new Subject(s));
-            Subject currentSubject = subjectMap.get(subjectId);
+            filenameMap.computeIfAbsent(fileName, s -> new Subject(fileName, subjectId));
+            Subject currentSubject = filenameMap.get(fileName);
 
             currentSubject.addSendentary(roundedValue(currentRow.getCell(colIdOfSedentary).getNumericCellValue()));
             currentSubject.addLight(roundedValue(currentRow.getCell(colIdOfLight).getNumericCellValue()));
@@ -60,7 +62,7 @@ public class ImportDataReader {
             currentSubject.addDay(currentRow.getCell(colIdOfOrderOfDays).getStringCellValue());
         }
 
-        return new ArrayList<>(subjectMap.values());
+        return new ArrayList<>(filenameMap.values());
     }
 
     private static double roundedValue(double value) {

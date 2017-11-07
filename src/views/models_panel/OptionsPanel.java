@@ -36,6 +36,8 @@ public class OptionsPanel extends JScrollPane {
     }
 
     public void updateModelList(ThreeDimensionalModels models) {
+        checkBoxList.clear();
+        checkboxPanel.removeAll();
         models.getModels().forEach(model -> addCheckBox(model));
 
         repaint();
@@ -44,6 +46,7 @@ public class OptionsPanel extends JScrollPane {
 
     private void addCheckBox(FileModel model) {
         JCheckBox checkBox = new JCheckBox(FilenameUtils.removeExtension(model.getFileName()));
+        checkBox.setSelected(model.isSelected());
         checkBox.addItemListener((ItemEvent e) -> {
             int indexOfChangedItem = checkBoxList.indexOf(e.getItem());
             controller.updateSelection(indexOfChangedItem, e.getStateChange());

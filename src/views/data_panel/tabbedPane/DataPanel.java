@@ -2,7 +2,6 @@ package views.data_panel.tabbedPane;
 
 import controllers.DataPanelController;
 import java.awt.Dimension;
-import java.util.List;
 import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
 import javax.swing.DefaultListModel;
@@ -11,6 +10,7 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import models.ImportedData;
 import models.Subjects;
+import org.apache.commons.io.FilenameUtils;
 
 public class DataPanel extends JScrollPane {
 
@@ -38,10 +38,10 @@ public class DataPanel extends JScrollPane {
 
     private void addList(Subjects subjects) {
         DefaultListModel<String> defaultListModel = new DefaultListModel<>();
-        subjects.getSubjectList().forEach(subject -> defaultListModel.addElement(subject.getSubjectId()));
+        subjects.getSubjectList().forEach(subject -> defaultListModel.addElement(FilenameUtils.removeExtension(subject.getFileName())));
 
         JList jList = new JList(defaultListModel);
-        jList.setFixedCellWidth(75);
+        jList.setFixedCellWidth(90);
         jList.setLayoutOrientation(JList.VERTICAL_WRAP);
 
         JScrollPane paneForOneFile = new JScrollPane(jList);

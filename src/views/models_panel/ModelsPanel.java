@@ -31,11 +31,9 @@ public class ModelsPanel extends JPanel {
         buttonPanel.setController(controller);
     }
 
-    public void updateModelInfo(ThreeDimensionalModels models) {
+    public void updateViews(ThreeDimensionalModels models) {
         threeDModelsInfoPanel.updateModelInfo(models);
-    }
-
-    public void updateModelList(ThreeDimensionalModels models) {
         optionsPanel.updateModelList(models);
+        buttonPanel.updateGenerateButton(models);
     }
 }

@@ -9,6 +9,7 @@ import java.util.List;
  */
 public class Subject {
 
+    private String fileName;
     private String subjectId;
     private List<Double> sedentary;
     private List<Double> light;
@@ -17,7 +18,8 @@ public class Subject {
     private List<DayOfWeek> orderOfDays;
     private List<FileModel> generatedModels;
 
-    public Subject(String subjectId) {
+    public Subject(String fileName, String subjectId) {
+        this.fileName = fileName;
         this.subjectId = subjectId;
 
         sedentary = new ArrayList<>();
@@ -28,6 +30,10 @@ public class Subject {
         orderOfDays = new ArrayList<>();
 
         generatedModels = new ArrayList<>();
+    }
+
+    public String getFileName() {
+        return fileName;
     }
 
     public String getSubjectId() {
@@ -105,4 +111,6 @@ public class Subject {
     public void addDay(String value) {
         orderOfDays.add(DayOfWeek.valueOf(value.toUpperCase()));
     }
+
+
 }

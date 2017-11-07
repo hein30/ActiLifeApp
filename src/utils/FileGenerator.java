@@ -9,7 +9,6 @@ import java.io.InputStreamReader;
 import java.io.UnsupportedEncodingException;
 import java.net.URL;
 import java.net.URLDecoder;
-import javax.swing.JProgressBar;
 import models.FileModel;
 import models.ImportedData;
 import models.Subject;
@@ -19,13 +18,13 @@ import org.apache.commons.io.FilenameUtils;
 import org.apache.velocity.Template;
 import org.apache.velocity.VelocityContext;
 import org.apache.velocity.app.VelocityEngine;
+import views.models_panel.FileGenerationProgressBar;
 
 public class FileGenerator implements Runnable {
 
     private static final String openJSCAD;
 
     static {
-        // todo open jscad command should be made to work with Linux/Mac
         String fileName = System.getProperty("os.name").contains("Windows") ? "openjscad.cmd" : "openjscad";
 
         URL url = ClassLoader.getSystemResource("openjscad");
@@ -53,14 +52,14 @@ public class FileGenerator implements Runnable {
         }
     }
 
-    private JProgressBar jProgressBar;
+    private FileGenerationProgressBar progressBar;
     private ImportedData importedData;
     private ThreeDimensionalModels models;
     private File defaultDestinationFolder;
     private ModelsPanelController controller;
 
-    public FileGenerator(ModelsPanelController controller, JProgressBar jProgressBar, ImportedData importedData, ThreeDimensionalModels models, File defaultDesinationFolder) {
-        this.jProgressBar = jProgressBar;
+    public FileGenerator(ModelsPanelController controller, FileGenerationProgressBar progressBar, ImportedData importedData, ThreeDimensionalModels models, File defaultDesinationFolder) {
+        this.progressBar = progressBar;
         this.importedData = importedData;
         this.models = models;
         this.defaultDestinationFolder = defaultDesinationFolder;
@@ -97,11 +96,11 @@ public class FileGenerator implements Runnable {
     }
 
     private void generateFile(Subject subject, FileModel model, String folderForThisImportFile, Template template) {
-        jProgressBar.setValue(jProgressBar.getValue() + 1);
-        jProgressBar.setString("Generating files (" + jProgressBar.getValue() + " of " + jProgressBar.getMaximum() + ")...");
+        progressBar.incrementProgress(1);
 
         VelocityContext context = buildContext(subject);
-        String outputFile = folderForThisImportFile + File.separator + subject.getSubjectId() + "_" + FilenameUtils.removeExtension(model.getFileName());
+        String outputFile = folderForThisImportFile + File.separator + FilenameUtils.removeExtension(
+                subject.getFileName()) + "_" + FilenameUtils.removeExtension(model.getFileName());
         String outputJSCADFile = outputFile + ".jscad";
         String outputSTLFile = outputFile + ".stl";
 
@@ -114,7 +113,7 @@ public class FileGenerator implements Runnable {
 
         } catch (IOException e) {
             e.printStackTrace();
-            controller.logError("Error while writing to jscadd");
+            controller.logError("Error while writing to jscad");
             controller.logError(e.toString());
             System.out.println("error writing jscad file.");
             //todo add more information here in case it failed and throw exception.
@@ -123,8 +122,6 @@ public class FileGenerator implements Runnable {
 
     private void generateSTLFile(String outputJSCADFile, String outputSTLFile) {
         StringBuffer output = new StringBuffer();
-        controller.log("Generating a stl");
-
         try {
 
             Process p = Runtime.getRuntime().exec(new String[]{openJSCAD, outputJSCADFile});
@@ -141,9 +138,14 @@ public class FileGenerator implements Runnable {
             e.printStackTrace();
             controller.logError("Error generating .stl files.");
             controller.logError(e.toString());
+        } finally {
+            File stl = new File(outputSTLFile);
+            if (!stl.exists()) {
+                controller.logError("Failed to generate " + outputSTLFile);
+            } else {
+                new File(outputJSCADFile).delete();
+            }
         }
-
-        controller.log(output.toString());
     }
 
     private VelocityContext buildContext(Subject subject) {

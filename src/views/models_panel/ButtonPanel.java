@@ -8,6 +8,7 @@ import java.awt.event.ActionEvent;
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JPanel;
+import models.ThreeDimensionalModels;
 
 public class ButtonPanel extends JPanel {
 
@@ -48,6 +49,7 @@ public class ButtonPanel extends JPanel {
         add(deleteButton);
 
         generateButton = new JButton("Generate");
+        disableGenerateButton();
         generateButton.addActionListener((ActionEvent e) -> controller.generateModels());
         GridBagConstraints generateButtonConstraints = new GridBagConstraints();
         generateButtonConstraints.gridy = 1;
@@ -61,5 +63,23 @@ public class ButtonPanel extends JPanel {
 
     public void setController(ModelsPanelController controller) {
         this.controller = controller;
+    }
+
+    public void updateGenerateButton(ThreeDimensionalModels models) {
+        if (models.getSelectedModels().isEmpty()) {
+            disableGenerateButton();
+        } else {
+            enableGenerateButton();
+        }
+    }
+
+    private void disableGenerateButton() {
+        generateButton.setEnabled(false);
+        generateButton.setToolTipText("Select one or more models to generate.");
+    }
+
+    private void enableGenerateButton() {
+        generateButton.setEnabled(true);
+        generateButton.setToolTipText("Generate selected 3D models for the input.");
     }
 }
