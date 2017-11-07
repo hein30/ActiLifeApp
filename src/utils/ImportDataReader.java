@@ -61,6 +61,8 @@ public class ImportDataReader {
             currentSubject.addVigorous(roundedValue(currentRow.getCell(colIdOfVigorous).getNumericCellValue()));
             currentSubject.addDay(currentRow.getCell(colIdOfOrderOfDays).getStringCellValue());
         }
+        
+        workbook.close();
 
         return new ArrayList<>(filenameMap.values());
     }

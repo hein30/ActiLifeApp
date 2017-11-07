@@ -49,10 +49,11 @@ public class ImportDragAndDrop implements DropTargetListener {
         dtde.acceptDrop(DnDConstants.ACTION_COPY_OR_MOVE);
         try {
             //get all the dropped files.
+        	@SuppressWarnings("unchecked")
             List<File> files = (List<File>) dtde.getTransferable().getTransferData(DataFlavor.javaFileListFlavor);
 
             List<FileModel> fileModels = files.stream().filter(fileExtensionFilter()).map(FileModel::new).collect(Collectors.toList());
-            controller.importFile(fileModels);
+            controller.importFiles(fileModels);
         } catch (UnsupportedFlavorException e) {
             e.printStackTrace();
         } catch (IOException e) {

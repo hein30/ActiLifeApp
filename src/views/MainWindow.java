@@ -10,7 +10,11 @@ import views.models_panel.ModelsPanel;
 
 public class MainWindow extends JFrame {
 
-    private ModelsPanel modelsPanel;
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = -2952363495030327863L;
+	private ModelsPanel modelsPanel;
     private DataPanel dataPanel;
     private LoggerPanel loggerPanel;
 
@@ -55,6 +59,6 @@ public class MainWindow extends JFrame {
     public void setDataPanelController(DataPanelController dataPanelController) {
         this.dataPanelController = dataPanelController;
 
-        dataPanel.setController(dataPanelController);
+        dataPanel.setController(this.dataPanelController);
     }
 }

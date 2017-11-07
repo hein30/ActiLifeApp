@@ -37,7 +37,7 @@ public class FileChooser implements ActionListener {
             File[] files = chooser.getSelectedFiles();
             List<FileModel> fileModels = Arrays.stream(files).map(FileModel::new).collect(Collectors.toList());
 
-            controller.importFile(fileModels);
+            controller.importFiles(fileModels);
         }
     }
 

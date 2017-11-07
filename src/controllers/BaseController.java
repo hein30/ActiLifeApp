@@ -9,9 +9,9 @@ import models.FileModel;
  */
 public abstract class BaseController {
 
-    public abstract void importFile(List<FileModel> files);
+    public abstract void importFiles(List<FileModel> files);
 
-    public abstract void deleteFile(List fileNamesToDelete);
+    public abstract void deleteFiles(List<String> fileNamesToDelete);
 
     public abstract void updateGeneratedFilesView(File defaultDestinationFolder);
 

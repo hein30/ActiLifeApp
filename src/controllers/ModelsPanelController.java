@@ -89,12 +89,12 @@ public class ModelsPanelController extends BaseController {
     }
 
     @Override
-    public void importFile(List<FileModel> files) {
+    public void importFiles(List<FileModel> files) {
 //todo handle importing templates
     }
 
     @Override
-    public void deleteFile(List fileNamesToDelete) {
+    public void deleteFiles(List<String> fileNamesToDelete) {
 //todo handle removing templates
     }
 

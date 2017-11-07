@@ -16,11 +16,13 @@ import models.ImportedData;
 
 public class ImportPanel extends JPanel {
 
-    private DataPanelController controller;
+    
+	private static final long serialVersionUID = 1L;
+	private DataPanelController controller;
     private FileChooser fileChooser;
 
     private DefaultListModel<String> defaultListModel;
-    private JList listOfFiles;
+    private JList<String> listOfFiles;
     private JScrollPane scrollPane;
 
     public ImportPanel() {
@@ -29,8 +31,8 @@ public class ImportPanel extends JPanel {
 
         fileChooser = new FileChooser(this);
 
-        defaultListModel = new DefaultListModel();
-        listOfFiles = new JList(defaultListModel);
+        defaultListModel = new DefaultListModel<>();
+        listOfFiles = new JList<>(defaultListModel);
         scrollPane = new JScrollPane(listOfFiles);
 
         add(scrollPane, BorderLayout.CENTER);
@@ -58,7 +60,7 @@ public class ImportPanel extends JPanel {
         buttonPanel.add(importButton);
 
         JButton deleteButton = new JButton("Remove");
-        deleteButton.addActionListener((ActionEvent e) -> controller.deleteFile(listOfFiles.getSelectedValuesList()));
+        deleteButton.addActionListener((ActionEvent e) -> controller.deleteFiles(listOfFiles.getSelectedValuesList()));
         buttonPanel.add(deleteButton);
         add(buttonPanel, BorderLayout.SOUTH);
     }

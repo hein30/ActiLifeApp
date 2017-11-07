@@ -26,7 +26,7 @@ public class DataPanelController extends BaseController {
     }
 
     @Override
-    public void importFile(List<FileModel> files) {
+    public void importFiles(List<FileModel> files) {
         try {
             data.addFiles(files);
 
@@ -39,7 +39,7 @@ public class DataPanelController extends BaseController {
     }
 
     @Override
-    public void deleteFile(List fileNamesToDelete) {
+    public void deleteFiles(List<String> fileNamesToDelete) {
 
         if (fileNamesToDelete.size() > 0) {
             fileNamesToDelete.forEach(name -> data.getFileMap().remove(name));
