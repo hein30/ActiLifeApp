@@ -52,4 +52,8 @@ public class DataPanelController extends BaseController {
     public void updateGeneratedFilesView(File defaultDestinationFolder) {
         dataPanel.updateGenerateFilesView(defaultDestinationFolder);
     }
+
+    public void toggleButtons(boolean isEnabled) {
+        dataPanel.toggleButtons(isEnabled);
+    }
 }

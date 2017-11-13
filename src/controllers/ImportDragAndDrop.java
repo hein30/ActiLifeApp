@@ -22,9 +22,11 @@ import models.FileModel;
 public class ImportDragAndDrop implements DropTargetListener {
 
     private BaseController controller;
+    private boolean isEnabled;
 
     public void setController(BaseController controller) {
         this.controller = controller;
+        this.isEnabled = true;
     }
 
     @Override
@@ -45,19 +47,22 @@ public class ImportDragAndDrop implements DropTargetListener {
 
     @Override
     public void drop(DropTargetDropEvent dtde) {
+        if (!isEnabled) {
+            dtde.rejectDrop();
+        } else {
+            dtde.acceptDrop(DnDConstants.ACTION_COPY_OR_MOVE);
+            try {
+                //get all the dropped files.
+                @SuppressWarnings("unchecked")
+                List<File> files = (List<File>) dtde.getTransferable().getTransferData(DataFlavor.javaFileListFlavor);
 
-        dtde.acceptDrop(DnDConstants.ACTION_COPY_OR_MOVE);
-        try {
-            //get all the dropped files.
-        	@SuppressWarnings("unchecked")
-            List<File> files = (List<File>) dtde.getTransferable().getTransferData(DataFlavor.javaFileListFlavor);
-
-            List<FileModel> fileModels = files.stream().filter(fileExtensionFilter()).map(FileModel::new).collect(Collectors.toList());
-            controller.importFiles(fileModels);
-        } catch (UnsupportedFlavorException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
+                List<FileModel> fileModels = files.stream().filter(fileExtensionFilter()).map(FileModel::new).collect(Collectors.toList());
+                controller.importFiles(fileModels);
+            } catch (UnsupportedFlavorException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
     }
 
@@ -68,5 +73,13 @@ public class ImportDragAndDrop implements DropTargetListener {
      */
     private Predicate<File> fileExtensionFilter() {
         return file -> file.getName().endsWith(".xlsx");
+    }
+
+    public boolean isEnabled() {
+        return isEnabled;
+    }
+
+    public void setEnabled(boolean enabled) {
+        isEnabled = enabled;
     }
 }

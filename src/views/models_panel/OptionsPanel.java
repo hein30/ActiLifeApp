@@ -61,7 +61,7 @@ public class OptionsPanel extends JPanel {
     }
 
     private void addCheckBox(FileModel model) {
-        JCheckBox checkBox = new JCheckBox(FilenameUtils.removeExtension(model.getFileName()));
+        JCheckBox checkBox = new JCheckBox(FilenameUtils.removeExtension(model.getFileName()) + isBuiltInText(model));
         checkBox.setSelected(model.isSelected());
         checkBox.addItemListener((ItemEvent e) -> {
             int indexOfChangedItem = checkBoxList.indexOf(e.getItem());
@@ -70,5 +70,14 @@ public class OptionsPanel extends JPanel {
 
         checkboxPanel.add(checkBox);
         checkBoxList.add(checkBox);
+    }
+
+    private String isBuiltInText(FileModel model) {
+        return model.isDeletable() ? "" : " (built-in)";
+    }
+
+    public void toggleButtons(boolean isEnabled) {
+        checkBoxList.forEach(checkbox -> checkbox.setEnabled(isEnabled));
+        buttonPanel.toggleButtons(isEnabled);
     }
 }

@@ -118,4 +118,10 @@ public class ButtonPanel extends JPanel {
             generateButton.setToolTipText("Generate selected 3D models for the input.");
         }
     }
+
+    public void toggleButtons(boolean isEnabled) {
+        importButton.setEnabled(isEnabled);
+        deleteButton.setEnabled(isEnabled);
+        generateButton.setEnabled(isEnabled);
+    }
 }

@@ -116,6 +116,7 @@ public class ModelsPanelController extends BaseController {
     @Override
     public void updateGeneratedFilesView(File defaultDestinationFolder) {
         logger.logInfo("3D model generation completed.");
+        toggleButtons(true);
         dataPanelController.updateGeneratedFilesView(this.defaultDestinationFolder);
         progressBar.dispose();
     }
@@ -143,10 +144,16 @@ public class ModelsPanelController extends BaseController {
 
             FileGenerator fileGenerator = new FileGenerator(this, progressBar, importedData, models, defaultDestinationFolder);
             Thread fileGenerationThread = new Thread(fileGenerator);
+            toggleButtons(false);
             fileGenerationThread.start();
         } else {
             logger.logInfo("3D model generation cancelled.");
         }
+    }
+
+    private void toggleButtons(boolean isEnabled) {
+        dataPanelController.toggleButtons(isEnabled);
+        modelsPanel.toggleButtons(isEnabled);
     }
 
     public void setDataPanelController(DataPanelController dataPanelController) {

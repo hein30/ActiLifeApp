@@ -35,4 +35,8 @@ public class ModelsPanel extends JPanel {
         threeDModelsInfoPanel.updateModelInfo(models);
         optionsPanel.updateModelList(models, importedData);
     }
+
+    public void toggleButtons(boolean isEnabled) {
+        optionsPanel.toggleButtons(isEnabled);
+    }
 }
