@@ -2,8 +2,6 @@ package controllers;
 
 import java.io.File;
 import java.io.IOException;
-import java.net.URL;
-import java.net.URLDecoder;
 import java.util.List;
 import java.util.StringJoiner;
 import java.util.stream.Collectors;
@@ -11,8 +9,10 @@ import javax.swing.JFileChooser;
 import models.FileModel;
 import models.ImportedData;
 import models.ThreeDimensionalModels;
+import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.FilenameUtils;
 import utils.FileGenerator;
+import utils.ModelLoader;
 import views.MainWindow;
 import views.models_panel.FileGenerationProgressBar;
 import views.models_panel.ModelsPanel;
@@ -44,12 +44,7 @@ public class ModelsPanelController extends BaseController {
 
         buildDefaultDestinationFolder();
 
-        try {
-            loadModels();
-        } catch (IOException e) {
-            //todo handle failure here.
-            e.printStackTrace();
-        }
+        ModelLoader.loadAllModels(models);
 
         initialiseModelsPanelInformation();
     }
@@ -64,20 +59,6 @@ public class ModelsPanelController extends BaseController {
         defaultDestinationFolder.mkdirs();
     }
 
-    /**
-     * Load all the 3D model template files in the resource folder.
-     *
-     * @throws IOException
-     */
-    private void loadModels() throws IOException {
-
-        URL url = ClassLoader.getSystemResource("3dmodels");
-
-        String path = URLDecoder.decode(url.getPath(), System.getProperty("file.encoding"));
-        File[] files = new File(path).listFiles();
-        models.add3DModels(files);
-    }
-
     private void initialiseModelsPanelInformation() {
         modelsPanel.updateViews(models);
     }
@@ -90,12 +71,42 @@ public class ModelsPanelController extends BaseController {
 
     @Override
     public void importFiles(List<FileModel> files) {
-//todo handle importing templates
+        File folder = ModelLoader.getCustomModelsFolder();
+
+        printExistingFileNames(files);
+
+        List<FileModel> newFilesToAdd = files.stream().filter(newFileModel -> !models.isNameUsed(newFileModel.getFileName())).collect(Collectors.toList());
+        log("Models added: " + newFilesToAdd.stream().map(FileModel::getFileName).collect(Collectors.toList()).toString());
+
+        newFilesToAdd.forEach(file -> {
+            try {
+                copyToFolder(folder, file);
+            } catch (IOException e) {
+                e.printStackTrace();
+                //todo handle exception here.
+            }
+        });
+
+        initialiseModelsPanelInformation();
+    }
+
+    private void printExistingFileNames(List<FileModel> files) {
+        List<FileModel> existingNames = files.stream().filter(newFileModel -> models.isNameUsed(newFileModel.getFileName())).collect(Collectors.toList());
+        logError("Models with same names already exist. Please rename them.");
+        logError("Cannot add files: " + existingNames.stream().map(FileModel::getFileName).collect(Collectors.toList()).toString());
+    }
+
+    private void copyToFolder(File folder, FileModel original) throws IOException {
+        File desFile = new File(folder.getAbsolutePath() + File.separator + original.getFileName());
+        FileUtils.copyFile(original.getFile(), desFile);
+        models.add3DModel(desFile, true);
     }
 
     @Override
     public void deleteFiles(List<String> fileNamesToDelete) {
-//todo handle removing templates
+        models.removeSelectedModels();
+
+        initialiseModelsPanelInformation();
     }
 
     @Override

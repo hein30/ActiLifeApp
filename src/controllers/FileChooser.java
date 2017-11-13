@@ -56,6 +56,6 @@ public class FileChooser implements ActionListener {
     }
 
     public FileNameExtensionFilter get3DModelTemplateFilter() {
-        return new FileNameExtensionFilter("3D Model Templates", "haha");
+        return new FileNameExtensionFilter("3D Model Templates", "vm");
     }
 }

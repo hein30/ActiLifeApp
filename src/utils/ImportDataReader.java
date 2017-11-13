@@ -22,6 +22,14 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
  */
 public class ImportDataReader {
 
+    public static final String FILENAME = "Filename";
+    public static final String SUBJECT = "Subject";
+    public static final String SEDENTARY = "Sedentary";
+    public static final String LIGHT = "Light";
+    public static final String MODERATE = "Moderate";
+    public static final String VIGOROUS = "Vigorous";
+    public static final String DAY_OF_WEEK = "Day of Week";
+
     private ImportDataReader() {
         //hiding constructor.
     }
@@ -34,17 +42,18 @@ public class ImportDataReader {
         Workbook workbook = new XSSFWorkbook(excelFile);
         XSSFSheet dataTypeSheet = (XSSFSheet) workbook.getSheet("Daily");
 
+
         Iterator<Row> rows = dataTypeSheet.rowIterator();
 
         Row headerRow = rows.next();
 
-        int colIdOfFileName = getColIdOfHeader("Filename", headerRow);
-        int colIdOfSubject = getColIdOfHeader("Subject", headerRow);
-        int colIdOfSedentary = getColIdOfHeader("Sedentary", headerRow);
-        int colIdOfLight = getColIdOfHeader("Light", headerRow);
-        int colIdOfModerate = getColIdOfHeader("Moderate", headerRow);
-        int colIdOfVigorous = getColIdOfHeader("Vigorous", headerRow);
-        int colIdOfOrderOfDays = getColIdOfHeader("Day of Week", headerRow);
+        int colIdOfFileName = getColIdOfHeader(FILENAME, headerRow);
+        int colIdOfSubject = getColIdOfHeader(SUBJECT, headerRow);
+        int colIdOfSedentary = getColIdOfHeader(SEDENTARY, headerRow);
+        int colIdOfLight = getColIdOfHeader(LIGHT, headerRow);
+        int colIdOfModerate = getColIdOfHeader(MODERATE, headerRow);
+        int colIdOfVigorous = getColIdOfHeader(VIGOROUS, headerRow);
+        int colIdOfOrderOfDays = getColIdOfHeader(DAY_OF_WEEK, headerRow);
 
         while (rows.hasNext()) {
             Row currentRow = rows.next();
@@ -61,7 +70,7 @@ public class ImportDataReader {
             currentSubject.addVigorous(roundedValue(currentRow.getCell(colIdOfVigorous).getNumericCellValue()));
             currentSubject.addDay(currentRow.getCell(colIdOfOrderOfDays).getStringCellValue());
         }
-        
+
         workbook.close();
 
         return new ArrayList<>(filenameMap.values());
@@ -85,6 +94,4 @@ public class ImportDataReader {
         //todo throw exception.
         return 0;
     }
-
-
 }

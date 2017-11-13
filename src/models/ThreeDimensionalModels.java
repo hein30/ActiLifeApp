@@ -18,10 +18,11 @@ public class ThreeDimensionalModels {
      * Add 3-D model template files.
      *
      * @param files
+     * @param deletable
      */
-    public void add3DModels(File[] files) {
+    public void add3DModels(File[] files, boolean deletable) {
         for (File file : files) {
-            models.add(new FileModel(file));
+            models.add(new FileModel(file, deletable));
         }
     }
 
@@ -29,9 +30,10 @@ public class ThreeDimensionalModels {
      * Add one 3-D model template file.
      *
      * @param file
+     * @param deletable
      */
-    public void add3DModel(File file) {
-        models.add(new FileModel(file));
+    public void add3DModel(File file, boolean deletable) {
+        models.add(new FileModel(file, deletable));
     }
 
     public List<FileModel> getModels() {
@@ -45,6 +47,20 @@ public class ThreeDimensionalModels {
      */
     public List<FileModel> getSelectedModels() {
         return models.stream().filter(model -> model.isSelected()).collect(Collectors.toList());
+    }
+
+    public boolean isNameUsed(String fileName) {
+        return models.stream().filter(model -> model.getFileName().contentEquals(fileName)).count() != 0;
+    }
+
+    public void removeSelectedModels() {
+
+        List<FileModel> filesToDelete = getSelectedModels().stream().filter(fileModel -> fileModel.isDeletable()).collect(Collectors.toList());
+
+        filesToDelete.forEach(fileToDelete -> {
+            models.remove(fileToDelete);
+            fileToDelete.getFile().delete();
+        });
     }
 
     /**

@@ -6,11 +6,9 @@ import javax.swing.tree.DefaultMutableTreeNode;
 public class CreateChildNodes implements Runnable {
 
     private DefaultMutableTreeNode root;
-
     private File fileRoot;
 
-    public CreateChildNodes(File fileRoot,
-                            DefaultMutableTreeNode root) {
+    public CreateChildNodes(File fileRoot, DefaultMutableTreeNode root) {
         this.fileRoot = fileRoot;
         this.root = root;
     }
@@ -23,7 +21,9 @@ public class CreateChildNodes implements Runnable {
     private void createChildren(File fileRoot,
                                 DefaultMutableTreeNode node) {
         File[] files = fileRoot.listFiles();
-        if (files == null) return;
+        if (files == null) {
+            return;
+        }
 
         for (File file : files) {
             DefaultMutableTreeNode childNode =
