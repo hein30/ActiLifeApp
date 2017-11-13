@@ -8,6 +8,7 @@ import java.awt.event.ActionEvent;
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JPanel;
+import models.ImportedData;
 import models.ThreeDimensionalModels;
 
 public class ButtonPanel extends JPanel {
@@ -26,7 +27,7 @@ public class ButtonPanel extends JPanel {
     private JButton generateButton;
 
     public ButtonPanel() {
-        setBorder(BorderFactory.createTitledBorder("Operations"));
+        setBorder(BorderFactory.createTitledBorder("3D Model Operations"));
 
         fileChooser = new FileChooser(this);
 
@@ -34,6 +35,7 @@ public class ButtonPanel extends JPanel {
         setLayout(gridBagLayout);
 
         importButton = new JButton("Import");
+        importButton.setToolTipText("Add 3D model templates.");
         importButton.addActionListener(fileChooser);
         GridBagConstraints importButtonConstraints = new GridBagConstraints();
         importButtonConstraints.gridy = 0;
@@ -44,6 +46,7 @@ public class ButtonPanel extends JPanel {
         add(importButton);
 
         deleteButton = new JButton("Delete");
+        disableDeleteButton();
         deleteButton.addActionListener((ActionEvent e) -> {
             controller.deleteFiles(null);
         });
@@ -71,11 +74,31 @@ public class ButtonPanel extends JPanel {
         this.fileChooser.addController(this.controller);
     }
 
-    public void updateGenerateButton(ThreeDimensionalModels models) {
+    public void updateButtonStates(ThreeDimensionalModels models, ImportedData importedData) {
         if (models.getSelectedModels().isEmpty()) {
             disableGenerateButton();
+            disableDeleteButton();
         } else {
-            enableGenerateButton();
+            enableGenerateButton(importedData);
+            enableDeleteButton(models);
+        }
+    }
+
+    private void disableDeleteButton() {
+        deleteButton.setEnabled(false);
+        deleteButton.setToolTipText("Delete 3D model templates. Select one or more imported models above to delete.");
+    }
+
+    /**
+     * Enable the delete button if necessary.
+     *
+     * @param models - if at least one deletable model is chosen, enable it.
+     */
+    private void enableDeleteButton(ThreeDimensionalModels models) {
+
+        if (models.getSelectedModels().stream().filter(model -> model.isDeletable()).count() > 0) {
+            deleteButton.setEnabled(true);
+            deleteButton.setToolTipText("Delete selected 3D model templates.");
         }
     }
 
@@ -84,8 +107,15 @@ public class ButtonPanel extends JPanel {
         generateButton.setToolTipText("Select one or more models to generate.");
     }
 
-    private void enableGenerateButton() {
-        generateButton.setEnabled(true);
-        generateButton.setToolTipText("Generate selected 3D models for the input.");
+    /**
+     * Enable the generate button if necessary.
+     *
+     * @param importedData - imported data must not be empty.
+     */
+    private void enableGenerateButton(ImportedData importedData) {
+        if (!importedData.getFileMap().isEmpty()) {
+            generateButton.setEnabled(true);
+            generateButton.setToolTipText("Generate selected 3D models for the input.");
+        }
     }
 }

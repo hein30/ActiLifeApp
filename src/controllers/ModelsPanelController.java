@@ -60,13 +60,13 @@ public class ModelsPanelController extends BaseController {
     }
 
     private void initialiseModelsPanelInformation() {
-        modelsPanel.updateViews(models);
+        modelsPanel.updateViews(models, importedData);
     }
 
     public void updateSelection(int indexOfChangedItem, int stateChange) {
 
         models.updateSelection(indexOfChangedItem, stateChange);
-        modelsPanel.updateViews(models);
+        modelsPanel.updateViews(models, importedData);
     }
 
     @Override
@@ -104,7 +104,11 @@ public class ModelsPanelController extends BaseController {
 
     @Override
     public void deleteFiles(List<String> fileNamesToDelete) {
-        models.removeSelectedModels();
+        List<FileModel> deletedFiles = models.removeSelectedModels();
+
+        if (!deletedFiles.isEmpty()) {
+            log("Deleted 3D models: " + deletedFiles.stream().map(FileModel::getFileName).collect(Collectors.toList()).toString());
+        }
 
         initialiseModelsPanelInformation();
     }

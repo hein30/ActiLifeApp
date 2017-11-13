@@ -53,7 +53,12 @@ public class ThreeDimensionalModels {
         return models.stream().filter(model -> model.getFileName().contentEquals(fileName)).count() != 0;
     }
 
-    public void removeSelectedModels() {
+    /**
+     * Remove files and return the deleted files for logging.
+     *
+     * @return
+     */
+    public List<FileModel> removeSelectedModels() {
 
         List<FileModel> filesToDelete = getSelectedModels().stream().filter(fileModel -> fileModel.isDeletable()).collect(Collectors.toList());
 
@@ -61,6 +66,8 @@ public class ThreeDimensionalModels {
             models.remove(fileToDelete);
             fileToDelete.getFile().delete();
         });
+
+        return filesToDelete;
     }
 
     /**
