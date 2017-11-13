@@ -60,13 +60,13 @@ public class ModelsPanelController extends BaseController {
     }
 
     private void initialiseModelsPanelInformation() {
-        modelsPanel.updateViews(models);
+        modelsPanel.updateViews(models, importedData);
     }
 
     public void updateSelection(int indexOfChangedItem, int stateChange) {
 
         models.updateSelection(indexOfChangedItem, stateChange);
-        modelsPanel.updateViews(models);
+        modelsPanel.updateViews(models, importedData);
     }
 
     @Override
@@ -104,7 +104,11 @@ public class ModelsPanelController extends BaseController {
 
     @Override
     public void deleteFiles(List<String> fileNamesToDelete) {
-        models.removeSelectedModels();
+        List<FileModel> deletedFiles = models.removeSelectedModels();
+
+        if (!deletedFiles.isEmpty()) {
+            log("Deleted 3D models: " + deletedFiles.stream().map(FileModel::getFileName).collect(Collectors.toList()).toString());
+        }
 
         initialiseModelsPanelInformation();
     }
@@ -112,6 +116,7 @@ public class ModelsPanelController extends BaseController {
     @Override
     public void updateGeneratedFilesView(File defaultDestinationFolder) {
         logger.logInfo("3D model generation completed.");
+        toggleButtons(true);
         dataPanelController.updateGeneratedFilesView(this.defaultDestinationFolder);
         progressBar.dispose();
     }
@@ -139,10 +144,16 @@ public class ModelsPanelController extends BaseController {
 
             FileGenerator fileGenerator = new FileGenerator(this, progressBar, importedData, models, defaultDestinationFolder);
             Thread fileGenerationThread = new Thread(fileGenerator);
+            toggleButtons(false);
             fileGenerationThread.start();
         } else {
             logger.logInfo("3D model generation cancelled.");
         }
+    }
+
+    private void toggleButtons(boolean isEnabled) {
+        dataPanelController.toggleButtons(isEnabled);
+        modelsPanel.toggleButtons(isEnabled);
     }
 
     public void setDataPanelController(DataPanelController dataPanelController) {

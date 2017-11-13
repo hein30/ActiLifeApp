@@ -16,14 +16,17 @@ import models.ImportedData;
 
 public class ImportPanel extends JPanel {
 
-    
-	private static final long serialVersionUID = 1L;
-	private DataPanelController controller;
+
+    private static final long serialVersionUID = 1L;
+    private DataPanelController controller;
     private FileChooser fileChooser;
 
     private DefaultListModel<String> defaultListModel;
     private JList<String> listOfFiles;
     private JScrollPane scrollPane;
+
+    private JButton importButton;
+    private JButton deleteButton;
 
     public ImportPanel() {
         setBorder(BorderFactory.createTitledBorder("Imported Files"));
@@ -55,13 +58,18 @@ public class ImportPanel extends JPanel {
         JPanel buttonPanel = new JPanel(new GridLayout());
         buttonPanel.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 0));
 
-        JButton importButton = new JButton("Add Files");
+        importButton = new JButton("Add Data Files");
         importButton.addActionListener(fileChooser);
         buttonPanel.add(importButton);
 
-        JButton deleteButton = new JButton("Remove");
+        deleteButton = new JButton("Remove Data Files");
         deleteButton.addActionListener((ActionEvent e) -> controller.deleteFiles(listOfFiles.getSelectedValuesList()));
         buttonPanel.add(deleteButton);
         add(buttonPanel, BorderLayout.SOUTH);
+    }
+
+    public void toggleButtons(boolean isEnabled) {
+        importButton.setEnabled(isEnabled);
+        deleteButton.setEnabled(isEnabled);
     }
 }
