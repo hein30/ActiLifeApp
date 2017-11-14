@@ -3,7 +3,6 @@ package views.data_panel.tabbedPane;
 import controllers.DataPanelController;
 import controllers.ImportDragAndDrop;
 import java.awt.dnd.DropTarget;
-import java.io.File;
 import javax.swing.JTabbedPane;
 import models.ImportedData;
 
@@ -37,8 +36,8 @@ public class TabbedPane extends JTabbedPane {
         dataPanel.updateView(data);
     }
 
-    public void updateGenerateFilesView(File rootDirectory) {
-        generatedFilesPanel.updateGeneratedFilesView(rootDirectory);
+    public void updateGenerateFilesView(ImportedData importedData) {
+        generatedFilesPanel.updateGeneratedFilesView(importedData);
     }
 
     /**

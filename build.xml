@@ -1,4 +1,4 @@
-<project name="Highway" default="compile" basedir="." xmlns:ivy="antlib:org.apache.ivy.ant"
+<project name="ActiLifeApp" default="compile" basedir="." xmlns:ivy="antlib:org.apache.ivy.ant"
          xmlns:jacoco="antlib:org.jacoco.ant">
   <description>
     Builds the ActiLife application.
@@ -10,6 +10,7 @@
   <property name="dir.test" value="test"/>
   <property name="dir.conf" value="conf"/>
   <property name="dir.rsrc" value="resource"/>
+  <property name="dir.ext" value="ext_lib/"/>
   <property name="dir.dist" value="dist"/>
   <property name="dir.report" value="reports"/>
   <property name="main.class" value="App" />
@@ -37,6 +38,7 @@
            encoding="UTF-8">
       <classpath>
         <fileset dir="${dir.lib}/compile" includes="**/*.jar"/>
+        <fileset dir="${dir.ext}" includes="**/*.jar"/>
       </classpath>
       <compilerarg value="-Xlint:all"/>
       <compilerarg value="-Xlint:-processing"/>
@@ -80,7 +82,7 @@
       <executiondata>
         <file file="${dir.report}/jacoco.exec"/>
       </executiondata>
-      <structure name="Highway">
+      <structure name="ActiLifeApp">
         <classfiles>
           <fileset dir="${dir.build}" includes="**/*.class"/>
         </classfiles>
@@ -96,6 +98,7 @@
     <mkdir dir="${dir.dist}/lib"/>
     <copy todir="${dir.dist}/lib">
       <fileset dir="${dir.lib}/compile" includes="**/*.jar"/>
+      <fileset dir="${dir.ext}"/>
     </copy>
   	
   	<mkdir dir="${dir.dist}/resource"/>

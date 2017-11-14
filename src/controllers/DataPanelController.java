@@ -1,6 +1,5 @@
 package controllers;
 
-import java.io.File;
 import java.io.IOException;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -49,8 +48,8 @@ public class DataPanelController extends BaseController {
     }
 
     @Override
-    public void updateGeneratedFilesView(File defaultDestinationFolder) {
-        dataPanel.updateGenerateFilesView(defaultDestinationFolder);
+    public void updateGeneratedFilesView(ImportedData importedData) {
+        dataPanel.updateGenerateFilesView(importedData);
     }
 
     public void toggleButtons(boolean isEnabled) {

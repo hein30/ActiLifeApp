@@ -69,7 +69,7 @@ public class FileGenerator implements Runnable {
     @Override
     public void run() {
         importedData.getFileMap().forEach((k, v) -> generateFilesForOneImportFile(k, v));
-        controller.updateGeneratedFilesView(defaultDestinationFolder);
+        controller.updateGeneratedFilesView(importedData);
     }
 
     private void generateFilesForOneImportFile(String fileName, Subjects subjects) {
@@ -109,7 +109,7 @@ public class FileGenerator implements Runnable {
             template.merge(context, writer);
             writer.close();
 
-            generateSTLFile(outputJSCADFile, outputSTLFile);
+            generateSTLFile(subject, outputJSCADFile, outputSTLFile);
 
         } catch (IOException e) {
             e.printStackTrace();
@@ -120,7 +120,7 @@ public class FileGenerator implements Runnable {
         }
     }
 
-    private void generateSTLFile(String outputJSCADFile, String outputSTLFile) {
+    private void generateSTLFile(Subject subject, String outputJSCADFile, String outputSTLFile) {
         StringBuffer output = new StringBuffer();
         try {
 
@@ -143,6 +143,7 @@ public class FileGenerator implements Runnable {
             if (!stl.exists()) {
                 controller.logError("Failed to generate " + outputSTLFile);
             } else {
+                subject.addOneGeneratedFile(stl);
                 new File(outputJSCADFile).delete();
             }
         }
