@@ -1,8 +1,8 @@
 package controllers;
 
-import java.io.File;
 import java.util.List;
 import models.FileModel;
+import models.ImportedData;
 
 /**
  * A base controller from which other controllers should extend.
@@ -13,6 +13,6 @@ public abstract class BaseController {
 
     public abstract void deleteFiles(List<String> fileNamesToDelete);
 
-    public abstract void updateGeneratedFilesView(File defaultDestinationFolder);
+    public abstract void updateGeneratedFilesView(ImportedData defaultDestinationFolder);
 
 }

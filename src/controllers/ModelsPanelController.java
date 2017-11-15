@@ -114,11 +114,11 @@ public class ModelsPanelController extends BaseController {
     }
 
     @Override
-    public void updateGeneratedFilesView(File defaultDestinationFolder) {
+    public void updateGeneratedFilesView(ImportedData defaultDestinationFolder) {
         logger.logInfo("3D model generation completed.");
-        toggleButtons(true);
-        dataPanelController.updateGeneratedFilesView(this.defaultDestinationFolder);
+        dataPanelController.updateGeneratedFilesView(importedData);
         progressBar.dispose();
+        toggleButtons(true);
     }
 
     /**

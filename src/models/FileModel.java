@@ -12,6 +12,10 @@ public class FileModel {
     private boolean selected;
     private boolean deletable;
 
+    public FileModel() {
+
+    }
+
     public FileModel(File file) {
         this.file = file;
         this.fileName = file.getName();

@@ -1,5 +1,6 @@
 package models;
 
+import java.io.File;
 import java.time.DayOfWeek;
 import java.util.ArrayList;
 import java.util.List;
@@ -16,7 +17,7 @@ public class Subject {
     private List<Double> moderate;
     private List<Double> vigorous;
     private List<DayOfWeek> orderOfDays;
-    private List<FileModel> generatedModels;
+    private List<GeneratedFileModel> generatedModels;
 
     public Subject(String fileName, String subjectId) {
         this.fileName = fileName;
@@ -84,11 +85,11 @@ public class Subject {
         this.orderOfDays = orderOfDays;
     }
 
-    public List<FileModel> getGeneratedModels() {
+    public List<GeneratedFileModel> getGeneratedModels() {
         return generatedModels;
     }
 
-    public void setGeneratedModels(List<FileModel> generatedModels) {
+    public void setGeneratedModels(List<GeneratedFileModel> generatedModels) {
         this.generatedModels = generatedModels;
     }
 
@@ -112,5 +113,12 @@ public class Subject {
         orderOfDays.add(DayOfWeek.valueOf(value.toUpperCase()));
     }
 
-
+    /**
+     * Add one generated file.
+     *
+     * @param file
+     */
+    public void addOneGeneratedFile(File file) {
+        generatedModels.add(new GeneratedFileModel(this, file));
+    }
 }
