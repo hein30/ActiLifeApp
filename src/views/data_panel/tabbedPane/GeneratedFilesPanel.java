@@ -12,6 +12,7 @@ import javax.swing.tree.DefaultMutableTreeNode;
 import models.GeneratedFileModel;
 import models.ImportedData;
 import utils.TreeModelBuilder;
+import views.stlViewer.STLViewer;
 
 public class GeneratedFilesPanel extends JPanel {
 

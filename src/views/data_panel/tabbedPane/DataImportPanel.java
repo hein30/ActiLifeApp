@@ -14,8 +14,7 @@ import javax.swing.JScrollPane;
 import models.ImportedData;
 
 
-public class ImportPanel extends JPanel {
-
+public class DataImportPanel extends JPanel {
 
     private static final long serialVersionUID = 1L;
     private DataPanelController controller;
@@ -28,7 +27,7 @@ public class ImportPanel extends JPanel {
     private JButton importButton;
     private JButton deleteButton;
 
-    public ImportPanel() {
+    public DataImportPanel() {
         setBorder(BorderFactory.createTitledBorder("Imported Files"));
         setLayout(new BorderLayout());
 

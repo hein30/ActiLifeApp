@@ -1,20 +1,20 @@
-package views.data_panel.tabbedPane;
+package views.stlViewer;
 
-        import com.sun.j3d.utils.universe.SimpleUniverse;
-        import hall.collin.christopher.stl4j.STLParser;
-        import hall.collin.christopher.stl4j.Triangle;
-        import java.awt.BorderLayout;
-        import java.awt.Dimension;
-        import java.awt.GraphicsConfiguration;
-        import java.io.File;
-        import java.io.IOException;
-        import java.util.List;
-        import java.util.logging.Level;
-        import java.util.logging.Logger;
-        import javax.swing.BorderFactory;
-        import javax.swing.JPanel;
-        import org.stlviewer.PCanvas3D;
-        import org.stlviewer.PModel;
+import com.sun.j3d.utils.universe.SimpleUniverse;
+import hall.collin.christopher.stl4j.STLParser;
+import hall.collin.christopher.stl4j.Triangle;
+import java.awt.BorderLayout;
+import java.awt.Dimension;
+import java.awt.GraphicsConfiguration;
+import java.io.File;
+import java.io.IOException;
+import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.BorderFactory;
+import javax.swing.JPanel;
+import org.stlviewer.PCanvas3D;
+import org.stlviewer.PModel;
 
 public class STLViewer extends JPanel {
 
