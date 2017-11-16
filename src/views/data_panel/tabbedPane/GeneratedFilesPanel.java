@@ -5,6 +5,7 @@ import java.awt.Dimension;
 import javax.swing.BorderFactory;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
+import javax.swing.JSplitPane;
 import javax.swing.JTextArea;
 import javax.swing.JTree;
 import javax.swing.event.TreeSelectionEvent;
@@ -21,33 +22,47 @@ public class GeneratedFilesPanel extends JPanel {
      */
     private static final long serialVersionUID = 4491905505931129624L;
 
-    private JScrollPane jScrollPane;
+    /**
+     * contains file list pane in left, and detailsAndPreviewSplitPane in right.
+     */
+    private JSplitPane leftRightSplitPane;
+    /**
+     * contains scrollable text area at top, and preview panel at bottom.
+     */
+    private JSplitPane detailsAndPreviewSplitPane;
 
-    private JTextArea jTextArea;
-    private STLViewer stlViewer;
+    private JScrollPane fileListPane;
+
+    private JTextArea detailsTextArea;
+    private STLViewer preview;
 
     public GeneratedFilesPanel() {
         setBorder(BorderFactory.createTitledBorder("Generated Files"));
         setLayout(new BorderLayout());
 
-        jScrollPane = new JScrollPane();
-        add(jScrollPane, BorderLayout.CENTER);
+        final Dimension minSize = new Dimension(300, 200);
 
-        JPanel rightPanel = new JPanel();
-        rightPanel.setPreferredSize(new Dimension(300, 200));
-        rightPanel.setLayout(new BorderLayout());
-        add(rightPanel, BorderLayout.EAST);
+        fileListPane = new JScrollPane();
+        fileListPane.setMinimumSize(minSize);
+        fileListPane.setPreferredSize(minSize);
 
-
-        jTextArea = new JTextArea("Select a file to view");
-        jTextArea.setEditable(false);
-        JScrollPane textScroll = new JScrollPane(jTextArea);
+        detailsTextArea = new JTextArea("Select a file to view");
+        detailsTextArea.setEditable(false);
+        JScrollPane textScroll = new JScrollPane(detailsTextArea);
         textScroll.setBorder(BorderFactory.createTitledBorder("Details"));
-        //textScroll.setPreferredSize(new Dimension(300, 250));
-        rightPanel.add(textScroll, BorderLayout.CENTER);
+        textScroll.setMinimumSize(minSize);
 
-        stlViewer = new STLViewer();
-        rightPanel.add(stlViewer, BorderLayout.SOUTH);
+        preview = new STLViewer();
+
+        detailsAndPreviewSplitPane = new JSplitPane(JSplitPane.VERTICAL_SPLIT, textScroll, preview);
+        detailsAndPreviewSplitPane.setOneTouchExpandable(true);
+        detailsAndPreviewSplitPane.setMinimumSize(minSize);
+        detailsAndPreviewSplitPane.setDividerLocation(0.5);
+
+        leftRightSplitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, fileListPane, detailsAndPreviewSplitPane);
+        leftRightSplitPane.setOneTouchExpandable(true);
+        leftRightSplitPane.setDividerLocation(0.7);
+        add(leftRightSplitPane, BorderLayout.CENTER);
     }
 
     public void updateGeneratedFilesView(ImportedData importedData) {
@@ -60,14 +75,14 @@ public class GeneratedFilesPanel extends JPanel {
 
             if (!node.children().asIterator().hasNext()) {
                 GeneratedFileModel fileModel = (GeneratedFileModel) node.getUserObject();
-                jTextArea.setText(fileModel.getDetails());
-                jTextArea.setCaretPosition(0);
-                stlViewer.loadfile(fileModel.getFile());
+                detailsTextArea.setText(fileModel.getDetails());
+                detailsTextArea.setCaretPosition(0);
+                preview.loadfile(fileModel.getFile());
             } else {
-                jTextArea.setText("Select a file to view");
+                detailsTextArea.setText("Select a file to view");
             }
         });
 
-        jScrollPane.setViewportView(tree);
+        fileListPane.setViewportView(tree);
     }
 }
