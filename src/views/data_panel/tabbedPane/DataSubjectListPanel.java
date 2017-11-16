@@ -18,8 +18,6 @@ public class DataSubjectListPanel extends JScrollPane {
      */
     private static final long serialVersionUID = -7226316184972082672L;
 
-    private DataPanelController controller;
-
     private JPanel mainPanel;
 
     public DataSubjectListPanel() {
