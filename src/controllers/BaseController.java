@@ -15,4 +15,5 @@ public abstract class BaseController {
 
     public abstract void updateGeneratedFilesView(ImportedData defaultDestinationFolder);
 
+    public abstract void toggleAllButtons(boolean isEnabled);
 }

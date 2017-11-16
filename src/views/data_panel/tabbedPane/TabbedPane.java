@@ -2,6 +2,7 @@ package views.data_panel.tabbedPane;
 
 import controllers.DataPanelController;
 import controllers.ImportDragAndDrop;
+import controllers.ModelsPanelController;
 import java.awt.dnd.DropTarget;
 import javax.swing.JTabbedPane;
 import models.ImportedData;
@@ -15,6 +16,7 @@ public class TabbedPane extends JTabbedPane {
     private DataImportPanel dataImportPanel;
     private DataSubjectListPanel dataSubjectListPanel;
     private GeneratedFilesPanel generatedFilesPanel;
+    private ModelImportPanel modelImportPanel;
 
     private ImportDragAndDrop dragAndDropListener;
 
@@ -27,6 +29,9 @@ public class TabbedPane extends JTabbedPane {
 
         generatedFilesPanel = new GeneratedFilesPanel();
         add("Generated Files", generatedFilesPanel);
+
+        modelImportPanel = new ModelImportPanel();
+        add("Manage 3D Models", modelImportPanel);
 
         enableDragAndDrop();
     }
@@ -48,14 +53,27 @@ public class TabbedPane extends JTabbedPane {
         new DropTarget(this, dragAndDropListener);
     }
 
-    public void setController(DataPanelController controller) {
+    public void setDataPanelController(DataPanelController controller) {
 
         dataImportPanel.setController(controller);
         dragAndDropListener.setController(controller);
     }
 
+    public void setModelsPanelController(ModelsPanelController modelsPanelController) {
+        modelImportPanel.setController(modelsPanelController);
+    }
+
     public void toggleButtons(boolean isEnabled) {
         dataImportPanel.toggleButtons(isEnabled);
         dragAndDropListener.setEnabled(isEnabled);
+    }
+
+
+    public ModelImportPanel getModelImportPanel() {
+        return modelImportPanel;
+    }
+
+    public void setModelImportPanel(ModelImportPanel modelImportPanel) {
+        this.modelImportPanel = modelImportPanel;
     }
 }

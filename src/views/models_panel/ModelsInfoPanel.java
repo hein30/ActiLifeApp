@@ -3,7 +3,7 @@ package views.models_panel;
 import java.awt.GridBagConstraints;
 import javax.swing.JLabel;
 import javax.swing.SwingConstants;
-import models.ThreeDimensionalModels;
+import models.ThreeDModels;
 import views.BaseInfoPanel;
 
 public class ModelsInfoPanel extends BaseInfoPanel {
@@ -45,7 +45,7 @@ public class ModelsInfoPanel extends BaseInfoPanel {
      *
      * @param models
      */
-    public void updateModelInfo(ThreeDimensionalModels models) {
+    public void updateModelInfo(ThreeDModels models) {
         total.setText(String.valueOf(models.getModels().size()));
         selected.setText(String.valueOf(models.getNumOfSelectedModels()));
 

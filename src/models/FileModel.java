@@ -1,6 +1,7 @@
 package models;
 
 import java.io.File;
+import org.apache.commons.io.FilenameUtils;
 
 /**
  * Represents files.
@@ -53,6 +54,11 @@ public class FileModel {
 
     public void setDeletable(boolean deletable) {
         this.deletable = deletable;
+    }
+
+    @Override
+    public String toString() {
+        return FilenameUtils.removeExtension(fileName) + (deletable ? "" : " (built-in)");
     }
 }
 

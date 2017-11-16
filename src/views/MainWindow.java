@@ -11,15 +11,12 @@ import views.models_panel.ModelsPanel;
 public class MainWindow extends JFrame {
 
     /**
-	 * 
-	 */
-	private static final long serialVersionUID = -2952363495030327863L;
-	private ModelsPanel modelsPanel;
+     *
+     */
+    private static final long serialVersionUID = -2952363495030327863L;
+    private ModelsPanel modelsPanel;
     private DataPanel dataPanel;
     private LoggerPanel loggerPanel;
-
-    private ModelsPanelController modelsPanelController;
-    private DataPanelController dataPanelController;
 
     public MainWindow() {
         setTitle("Automation");
@@ -51,14 +48,11 @@ public class MainWindow extends JFrame {
     }
 
     public void setModelsPanelController(ModelsPanelController modelsPanelController) {
-        this.modelsPanelController = modelsPanelController;
-
-        modelsPanel.setController(this.modelsPanelController);
+        modelsPanel.setModelsPanelController(modelsPanelController);
+        dataPanel.setModelsPanelController(modelsPanelController);
     }
 
     public void setDataPanelController(DataPanelController dataPanelController) {
-        this.dataPanelController = dataPanelController;
-
-        dataPanel.setController(this.dataPanelController);
+        dataPanel.setDataPanelController(dataPanelController);
     }
 }

@@ -26,6 +26,7 @@ public class GeneratedFileModel extends FileModel {
 
     public String getDetails() {
         StringJoiner sj = new StringJoiner("\n");
+        sj.add("SubjectID: " + subject.getSubjectId());
         sj.add("Sedentary: " + subject.getSedentary());
         sj.add("Light: " + subject.getLight());
         sj.add("Moderate: " + subject.getModerate());

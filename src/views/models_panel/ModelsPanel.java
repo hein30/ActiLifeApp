@@ -5,7 +5,7 @@ import java.awt.BorderLayout;
 import javax.swing.BorderFactory;
 import javax.swing.JPanel;
 import models.ImportedData;
-import models.ThreeDimensionalModels;
+import models.ThreeDModels;
 
 public class ModelsPanel extends JPanel {
 
@@ -27,11 +27,11 @@ public class ModelsPanel extends JPanel {
         add(modelsOptionPanel, BorderLayout.CENTER);
     }
 
-    public void setController(ModelsPanelController controller) {
+    public void setModelsPanelController(ModelsPanelController controller) {
         modelsOptionPanel.setController(controller);
     }
 
-    public void updateViews(ThreeDimensionalModels models, ImportedData importedData) {
+    public void updateViews(ThreeDModels models, ImportedData importedData) {
         modelsInfoPanel.updateModelInfo(models);
         modelsOptionPanel.updateModelList(models, importedData);
     }
