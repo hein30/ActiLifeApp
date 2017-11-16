@@ -31,6 +31,10 @@ public class TreeModelBuilder {
         root.add(topNode);
 
         addChildren(topNode, v);
+
+        if (topNode.getChildCount() == 0) {
+            root.remove(topNode);
+        }
     }
 
     private static void addChildren(DefaultMutableTreeNode root, Subjects v) {

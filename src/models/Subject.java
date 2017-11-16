@@ -131,4 +131,9 @@ public class Subject {
     public void setSelected(boolean selected) {
         this.selected = selected;
     }
+
+    @Override
+    public String toString() {
+        return subjectId;
+    }
 }

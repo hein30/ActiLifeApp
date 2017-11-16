@@ -146,7 +146,7 @@ public class ModelsPanelController extends BaseController {
             defaultDestinationFolder = destChooser.getSelectedFile();
             logger.logInfo("Saving models to " + defaultDestinationFolder.getAbsolutePath());
 
-            progressBar = new FileGenerationProgressBar(0, models.getNumOfSelectedModels() * importedData.getNumPeople());
+            progressBar = new FileGenerationProgressBar(0, models.getNumOfSelectedModels() * importedData.getNumSelectedPeople());
 
             FileGenerator fileGenerator = new FileGenerator(this, progressBar, importedData, models, defaultDestinationFolder);
             Thread fileGenerationThread = new Thread(fileGenerator);

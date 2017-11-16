@@ -83,7 +83,7 @@ public class FileGenerator implements Runnable {
         for (FileModel model : models.getSelectedModels()) {
             Template template = buildTemplate(model);
 
-            subjects.getSubjectList().forEach(subject -> generateFile(subject, model, folderForThisImportFile, template));
+            subjects.getSelectedSubjects().forEach(subject -> generateFile(subject, model, folderForThisImportFile, template));
         }
     }
 
