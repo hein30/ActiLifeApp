@@ -61,6 +61,7 @@ public class GeneratedFilesPanel extends JPanel {
             if (!node.children().asIterator().hasNext()) {
                 GeneratedFileModel fileModel = (GeneratedFileModel) node.getUserObject();
                 jTextArea.setText(fileModel.getDetails());
+                jTextArea.setCaretPosition(0);
                 stlViewer.loadfile(fileModel.getFile());
             } else {
                 jTextArea.setText("Select a file to view");

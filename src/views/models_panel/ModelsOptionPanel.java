@@ -2,17 +2,20 @@ package views.models_panel;
 
 import controllers.ModelsPanelController;
 import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.event.ActionEvent;
 import java.awt.event.ItemEvent;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
+import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import models.FileModel;
 import models.ImportedData;
-import models.ThreeDimensionalModels;
+import models.ThreeDModels;
 import org.apache.commons.io.FilenameUtils;
 
 public class ModelsOptionPanel extends JPanel {
@@ -27,7 +30,9 @@ public class ModelsOptionPanel extends JPanel {
     private List<JCheckBox> checkBoxList;
     private JPanel checkboxPanel;
     private JScrollPane jScrollPane;
-    private ButtonPanel buttonPanel;
+    private JButton generateButton;
+
+    private boolean isControlEnabled;
 
     public ModelsOptionPanel() {
         setBorder(BorderFactory.createTitledBorder("3D Models"));
@@ -41,21 +46,23 @@ public class ModelsOptionPanel extends JPanel {
         jScrollPane = new JScrollPane(checkboxPanel);
         add(jScrollPane, BorderLayout.CENTER);
 
-        buttonPanel = new ButtonPanel();
-        add(buttonPanel, BorderLayout.SOUTH);
+        generateButton = new JButton("Generate");
+        generateButton.setBorder(BorderFactory.createLineBorder(Color.BLACK, 5));
+        generateButton.addActionListener((ActionEvent e) -> controller.generateModels());
+        disableGenerateButton();
+        add(generateButton, BorderLayout.SOUTH);
     }
 
     public void setController(ModelsPanelController controller) {
         this.controller = controller;
-        buttonPanel.setController(this.controller);
     }
 
-    public void updateModelList(ThreeDimensionalModels models, ImportedData importedData) {
+    public void updateModelList(ThreeDModels models, ImportedData importedData) {
         checkBoxList.clear();
         checkboxPanel.removeAll();
         models.getModels().forEach(model -> addCheckBox(model));
 
-        buttonPanel.updateButtonStates(models, importedData);
+        updateButtonStates(models, importedData);
         repaint();
         revalidate();
     }
@@ -63,6 +70,7 @@ public class ModelsOptionPanel extends JPanel {
     private void addCheckBox(FileModel model) {
         JCheckBox checkBox = new JCheckBox(FilenameUtils.removeExtension(model.getFileName()) + isBuiltInText(model));
         checkBox.setSelected(model.isSelected());
+        checkBox.setEnabled(isControlEnabled);
         checkBox.addItemListener((ItemEvent e) -> {
             int indexOfChangedItem = checkBoxList.indexOf(e.getItem());
             controller.updateSelection(indexOfChangedItem, e.getStateChange());
@@ -77,7 +85,33 @@ public class ModelsOptionPanel extends JPanel {
     }
 
     public void toggleButtons(boolean isEnabled) {
+        isControlEnabled = isEnabled;
         checkBoxList.forEach(checkbox -> checkbox.setEnabled(isEnabled));
-        buttonPanel.toggleButtons(isEnabled);
+        generateButton.setEnabled(isEnabled);
+    }
+
+    public void updateButtonStates(ThreeDModels models, ImportedData importedData) {
+        if (models.getSelectedModels().isEmpty()) {
+            disableGenerateButton();
+        } else {
+            enableGenerateButton(importedData);
+        }
+    }
+
+    private void disableGenerateButton() {
+        generateButton.setEnabled(false);
+        generateButton.setToolTipText("Select one or more models to generate.");
+    }
+
+    /**
+     * Enable the generate button if necessary.
+     *
+     * @param importedData - imported data must not be empty.
+     */
+    private void enableGenerateButton(ImportedData importedData) {
+        if (!importedData.getFileMap().isEmpty()) {
+            generateButton.setEnabled(true);
+            generateButton.setToolTipText("Generate selected 3D models for the input.");
+        }
     }
 }

@@ -1,6 +1,7 @@
 package views.data_panel;
 
 import controllers.DataPanelController;
+import controllers.ModelsPanelController;
 import java.awt.BorderLayout;
 import javax.swing.BorderFactory;
 import javax.swing.JPanel;
@@ -15,8 +16,6 @@ public class DataPanel extends JPanel {
     private static final long serialVersionUID = 4732367937089784954L;
     private DataInfoPanel dataInfoPanel;
     private TabbedPane tabbedPane;
-
-    private DataPanelController controller;
 
     public DataPanel() {
         setBorder(BorderFactory.createEmptyBorder());
@@ -41,13 +40,24 @@ public class DataPanel extends JPanel {
         tabbedPane.setSelectedIndex(2);
     }
 
-    public void setController(DataPanelController controller) {
-        this.controller = controller;
+    public void setDataPanelController(DataPanelController controller) {
+        tabbedPane.setDataPanelController(controller);
+    }
 
-        tabbedPane.setController(this.controller);
+    public void setModelsPanelController(ModelsPanelController modelsPanelController) {
+        tabbedPane.setModelsPanelController(modelsPanelController);
     }
 
     public void toggleButtons(boolean isEnabled) {
         tabbedPane.toggleButtons(isEnabled);
+    }
+
+
+    public TabbedPane getTabbedPane() {
+        return tabbedPane;
+    }
+
+    public void setTabbedPane(TabbedPane tabbedPane) {
+        this.tabbedPane = tabbedPane;
     }
 }

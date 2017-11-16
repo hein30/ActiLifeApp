@@ -13,7 +13,7 @@ import models.FileModel;
 import models.ImportedData;
 import models.Subject;
 import models.Subjects;
-import models.ThreeDimensionalModels;
+import models.ThreeDModels;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.velocity.Template;
 import org.apache.velocity.VelocityContext;
@@ -54,11 +54,11 @@ public class FileGenerator implements Runnable {
 
     private FileGenerationProgressBar progressBar;
     private ImportedData importedData;
-    private ThreeDimensionalModels models;
+    private ThreeDModels models;
     private File defaultDestinationFolder;
     private ModelsPanelController controller;
 
-    public FileGenerator(ModelsPanelController controller, FileGenerationProgressBar progressBar, ImportedData importedData, ThreeDimensionalModels models, File defaultDesinationFolder) {
+    public FileGenerator(ModelsPanelController controller, FileGenerationProgressBar progressBar, ImportedData importedData, ThreeDModels models, File defaultDesinationFolder) {
         this.progressBar = progressBar;
         this.importedData = importedData;
         this.models = models;

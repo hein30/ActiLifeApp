@@ -9,7 +9,7 @@ import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JPanel;
 import models.ImportedData;
-import models.ThreeDimensionalModels;
+import models.ThreeDModels;
 
 public class ButtonPanel extends JPanel {
 
@@ -74,7 +74,7 @@ public class ButtonPanel extends JPanel {
         this.fileChooser.addController(this.controller);
     }
 
-    public void updateButtonStates(ThreeDimensionalModels models, ImportedData importedData) {
+    public void updateButtonStates(ThreeDModels models, ImportedData importedData) {
         if (models.getSelectedModels().isEmpty()) {
             disableGenerateButton();
             disableDeleteButton();
@@ -94,7 +94,7 @@ public class ButtonPanel extends JPanel {
      *
      * @param models - if at least one deletable model is chosen, enable it.
      */
-    private void enableDeleteButton(ThreeDimensionalModels models) {
+    private void enableDeleteButton(ThreeDModels models) {
 
         if (models.getSelectedModels().stream().filter(model -> model.isDeletable()).count() > 0) {
             deleteButton.setEnabled(true);

@@ -4,13 +4,14 @@ import java.awt.event.ItemEvent;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
-public class ThreeDimensionalModels {
+public class ThreeDModels {
 
     private List<FileModel> models;
 
-    public ThreeDimensionalModels() {
+    public ThreeDModels() {
         models = new ArrayList<>();
     }
 
@@ -53,14 +54,24 @@ public class ThreeDimensionalModels {
         return models.stream().filter(model -> model.getFileName().contentEquals(fileName)).count() != 0;
     }
 
+    private List<FileModel> getModelsByNames(List<String> names) {
+
+        return models.stream().filter(filterByFileNames(names)).collect(Collectors.toList());
+    }
+
+    private Predicate<FileModel> filterByFileNames(List<String> names) {
+        return model -> names.stream().anyMatch(name -> name.contentEquals(model.getFileName()));
+    }
+
     /**
      * Remove files and return the deleted files for logging.
      *
+     * @param fileNamesToDelete
      * @return
      */
-    public List<FileModel> removeSelectedModels() {
+    public List<FileModel> removeSelectedModels(List<String> fileNamesToDelete) {
 
-        List<FileModel> filesToDelete = getSelectedModels().stream().filter(fileModel -> fileModel.isDeletable()).collect(Collectors.toList());
+        List<FileModel> filesToDelete = getModelsByNames(fileNamesToDelete).stream().filter(fileModel -> fileModel.isDeletable()).collect(Collectors.toList());
 
         filesToDelete.forEach(fileToDelete -> {
             models.remove(fileToDelete);

@@ -8,12 +8,13 @@ import java.util.stream.Collectors;
 import javax.swing.JFileChooser;
 import models.FileModel;
 import models.ImportedData;
-import models.ThreeDimensionalModels;
+import models.ThreeDModels;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.FilenameUtils;
 import utils.FileGenerator;
 import utils.ModelLoader;
 import views.MainWindow;
+import views.data_panel.tabbedPane.ModelImportPanel;
 import views.models_panel.FileGenerationProgressBar;
 import views.models_panel.ModelsPanel;
 
@@ -28,16 +29,19 @@ public class ModelsPanelController extends BaseController {
     private LogController logger;
 
     private ModelsPanel modelsPanel;
-    private ThreeDimensionalModels models;
+    private ModelImportPanel modelImportPanel;
+
+    private ThreeDModels models;
     private ImportedData importedData;
 
     private File defaultDestinationFolder;
 
     private FileGenerationProgressBar progressBar;
 
-    public ModelsPanelController(MainWindow mainWindow, ThreeDimensionalModels models, ImportedData importedData, LogController logger) {
+    public ModelsPanelController(MainWindow mainWindow, ThreeDModels models, ImportedData importedData, LogController logger) {
 
         this.modelsPanel = mainWindow.getModelsPanel();
+        this.modelImportPanel = mainWindow.getDataPanel().getTabbedPane().getModelImportPanel();
         this.models = models;
         this.importedData = importedData;
         this.logger = logger;
@@ -61,6 +65,7 @@ public class ModelsPanelController extends BaseController {
 
     private void initialiseModelsPanelInformation() {
         modelsPanel.updateViews(models, importedData);
+        modelImportPanel.updateModelList(models);
     }
 
     public void updateSelection(int indexOfChangedItem, int stateChange) {
@@ -104,7 +109,8 @@ public class ModelsPanelController extends BaseController {
 
     @Override
     public void deleteFiles(List<String> fileNamesToDelete) {
-        List<FileModel> deletedFiles = models.removeSelectedModels();
+
+        List<FileModel> deletedFiles = models.removeSelectedModels(fileNamesToDelete);
 
         if (!deletedFiles.isEmpty()) {
             log("Deleted 3D models: " + deletedFiles.stream().map(FileModel::getFileName).collect(Collectors.toList()).toString());
@@ -118,7 +124,7 @@ public class ModelsPanelController extends BaseController {
         logger.logInfo("3D model generation completed.");
         dataPanelController.updateGeneratedFilesView(importedData);
         progressBar.dispose();
-        toggleButtons(true);
+        toggleAllButtons(true);
     }
 
     /**
@@ -144,16 +150,17 @@ public class ModelsPanelController extends BaseController {
 
             FileGenerator fileGenerator = new FileGenerator(this, progressBar, importedData, models, defaultDestinationFolder);
             Thread fileGenerationThread = new Thread(fileGenerator);
-            toggleButtons(false);
+            toggleAllButtons(false);
             fileGenerationThread.start();
         } else {
             logger.logInfo("3D model generation cancelled.");
         }
     }
 
-    private void toggleButtons(boolean isEnabled) {
-        dataPanelController.toggleButtons(isEnabled);
+    public void toggleAllButtons(boolean isEnabled) {
+        dataPanelController.toggleAllButtons(isEnabled);
         modelsPanel.toggleButtons(isEnabled);
+        modelImportPanel.toggleButtons(isEnabled);
     }
 
     public void setDataPanelController(DataPanelController dataPanelController) {

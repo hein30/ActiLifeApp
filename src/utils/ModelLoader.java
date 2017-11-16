@@ -5,7 +5,7 @@ import java.io.UnsupportedEncodingException;
 import java.net.URL;
 import java.net.URLDecoder;
 import java.util.StringJoiner;
-import models.ThreeDimensionalModels;
+import models.ThreeDModels;
 
 /**
  * Load 3D models.
@@ -29,7 +29,7 @@ public class ModelLoader {
     private ModelLoader() {
     }
 
-    public static void loadAllModels(ThreeDimensionalModels models) {
+    public static void loadAllModels(ThreeDModels models) {
 
         //built in models.
         URL url = getBuiltInModelsDirectory();
@@ -43,7 +43,7 @@ public class ModelLoader {
         return ClassLoader.getSystemResource(BUILT_IN_MODELS_DIRECTORY);
     }
 
-    private static void addModelsFromDirectory(URL url, ThreeDimensionalModels models) {
+    private static void addModelsFromDirectory(URL url, ThreeDModels models) {
         try {
             String path = URLDecoder.decode(url.getPath(), System.getProperty("file.encoding"));
             File[] files = new File(path).listFiles();

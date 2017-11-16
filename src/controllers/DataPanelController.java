@@ -13,15 +13,20 @@ public class DataPanelController extends BaseController {
     private ImportedData data;
     private LogController logger;
 
+    private ModelsPanelController modelsPanelController;
+
     public DataPanelController(MainWindow mw, ImportedData data, LogController logger) {
         this.dataPanel = mw.getDataPanel();
         this.data = data;
         this.logger = logger;
     }
 
-
+    /**
+     * Update the data views as well as the model options panel.
+     */
     private void updateDataViews() {
         dataPanel.updateDataViews(data);
+        modelsPanelController.toggleAllButtons(data.getFileMap().isEmpty() ? false : true);
     }
 
     @Override
@@ -47,12 +52,19 @@ public class DataPanelController extends BaseController {
         }
     }
 
+    public void setModelsPanelController(ModelsPanelController modelsPanelController) {
+        this.modelsPanelController = modelsPanelController;
+    }
+
     @Override
     public void updateGeneratedFilesView(ImportedData importedData) {
         dataPanel.updateGenerateFilesView(importedData);
     }
 
-    public void toggleButtons(boolean isEnabled) {
-        dataPanel.toggleButtons(isEnabled);
+    @Override
+    public void toggleAllButtons(boolean isEnabled) {
+        if (!data.getFileMap().isEmpty()) {
+            dataPanel.toggleButtons(isEnabled);
+        }
     }
 }

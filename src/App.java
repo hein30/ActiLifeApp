@@ -4,7 +4,7 @@ import controllers.ModelsPanelController;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 import models.ImportedData;
-import models.ThreeDimensionalModels;
+import models.ThreeDModels;
 import views.MainWindow;
 
 public class App {
@@ -14,7 +14,7 @@ public class App {
                 UIManager.getSystemLookAndFeelClassName());
 
         //Maintain all the imported 3D model template files.
-        ThreeDimensionalModels models = new ThreeDimensionalModels();
+        ThreeDModels models = new ThreeDModels();
         ImportedData importedData = new ImportedData();
 
         MainWindow mw = new MainWindow();
@@ -27,5 +27,7 @@ public class App {
         ModelsPanelController modelsPanelController = new ModelsPanelController(mw, models, importedData, logger);
         modelsPanelController.setDataPanelController(dataPanelController);
         mw.setModelsPanelController(modelsPanelController);
+
+        dataPanelController.setModelsPanelController(modelsPanelController);
     }
 }
