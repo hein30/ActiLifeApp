@@ -56,6 +56,7 @@ public class TabbedPane extends JTabbedPane {
     public void setDataPanelController(DataPanelController controller) {
 
         dataImportPanel.setController(controller);
+        dataSubjectListPanel.setController(controller);
         dragAndDropListener.setController(controller);
     }
 

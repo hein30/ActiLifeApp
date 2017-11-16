@@ -75,9 +75,11 @@ public class GeneratedFilesPanel extends JPanel {
 
             if (!node.children().asIterator().hasNext()) {
                 GeneratedFileModel fileModel = (GeneratedFileModel) node.getUserObject();
-                detailsTextArea.setText(fileModel.getDetails());
-                detailsTextArea.setCaretPosition(0);
-                preview.loadfile(fileModel.getFile());
+                if (fileModel.getFile() != null) {
+                    detailsTextArea.setText(fileModel.getDetails());
+                    detailsTextArea.setCaretPosition(0);
+                    preview.loadfile(fileModel.getFile());
+                }
             } else {
                 detailsTextArea.setText("Select a file to view");
             }

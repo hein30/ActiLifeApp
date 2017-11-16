@@ -5,6 +5,8 @@ import java.util.List;
 import java.util.stream.Collectors;
 import models.FileModel;
 import models.ImportedData;
+import models.Subject;
+import models.Subjects;
 import views.MainWindow;
 import views.data_panel.DataPanel;
 
@@ -26,7 +28,7 @@ public class DataPanelController extends BaseController {
      */
     private void updateDataViews() {
         dataPanel.updateDataViews(data);
-        modelsPanelController.toggleAllButtons(data.getFileMap().isEmpty() ? false : true);
+        modelsPanelController.toggleAllButtons(data.getNumSelectedPeople() == 0 ? false : true);
     }
 
     @Override
@@ -66,5 +68,25 @@ public class DataPanelController extends BaseController {
         if (!data.getFileMap().isEmpty()) {
             dataPanel.toggleButtons(isEnabled);
         }
+    }
+
+    public void changeSelectionForSubject(Subject subject) {
+        subject.setSelected(!subject.isSelected());
+        updateDataViews();
+    }
+
+    public void deselectAllSubjects() {
+        changeSelectedValues(false);
+        updateDataViews();
+    }
+
+    private void changeSelectedValues(boolean selected) {
+        data.getFileMap().values().stream().map(Subjects::getSubjectList).flatMap(subjects -> subjects.stream()).forEach(subject ->
+                subject.setSelected(selected));
+    }
+
+    public void selectAllSubjects() {
+        changeSelectedValues(true);
+        updateDataViews();
     }
 }

@@ -47,7 +47,6 @@ public class ModelsOptionPanel extends JPanel {
         add(jScrollPane, BorderLayout.CENTER);
 
         generateButton = new JButton("Generate");
-        generateButton.setBorder(BorderFactory.createLineBorder(Color.BLACK, 5));
         generateButton.addActionListener((ActionEvent e) -> controller.generateModels());
         disableGenerateButton();
         add(generateButton, BorderLayout.SOUTH);
@@ -87,7 +86,6 @@ public class ModelsOptionPanel extends JPanel {
     public void toggleButtons(boolean isEnabled) {
         isControlEnabled = isEnabled;
         checkBoxList.forEach(checkbox -> checkbox.setEnabled(isEnabled));
-        generateButton.setEnabled(isEnabled);
     }
 
     public void updateButtonStates(ThreeDModels models, ImportedData importedData) {
@@ -100,6 +98,7 @@ public class ModelsOptionPanel extends JPanel {
 
     private void disableGenerateButton() {
         generateButton.setEnabled(false);
+        generateButton.setBorder(BorderFactory.createLineBorder(Color.GRAY, 1));
         generateButton.setToolTipText("Select one or more models to generate.");
     }
 
@@ -111,6 +110,7 @@ public class ModelsOptionPanel extends JPanel {
     private void enableGenerateButton(ImportedData importedData) {
         if (!importedData.getFileMap().isEmpty()) {
             generateButton.setEnabled(true);
+            generateButton.setBorder(BorderFactory.createLineBorder(Color.GREEN, 5));
             generateButton.setToolTipText("Generate selected 3D models for the input.");
         }
     }
