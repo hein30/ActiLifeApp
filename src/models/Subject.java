@@ -18,10 +18,12 @@ public class Subject {
     private List<Double> vigorous;
     private List<DayOfWeek> orderOfDays;
     private List<GeneratedFileModel> generatedModels;
+    private boolean selected;
 
     public Subject(String fileName, String subjectId) {
         this.fileName = fileName;
         this.subjectId = subjectId;
+        selected = true;
 
         sedentary = new ArrayList<>();
         light = new ArrayList<>();
@@ -120,5 +122,13 @@ public class Subject {
      */
     public void addOneGeneratedFile(File file) {
         generatedModels.add(new GeneratedFileModel(this, file));
+    }
+
+    public boolean isSelected() {
+        return selected;
+    }
+
+    public void setSelected(boolean selected) {
+        this.selected = selected;
     }
 }

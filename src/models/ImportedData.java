@@ -45,4 +45,9 @@ public class ImportedData {
     public void setFileMap(Map<String, Subjects> fileMap) {
         this.fileMap = fileMap;
     }
+
+    public int getNumSelectedPeople() {
+        return fileMap.values().stream().mapToInt(Subjects::getNumberOfSelectedSubjects).sum();
+    }
+
 }
