@@ -130,4 +130,9 @@ public class DataSubjectListPanel extends JPanel {
     public void setController(DataPanelController controller) {
         this.controller = controller;
     }
+
+    public void toggleButtons(boolean isEnabled) {
+        selectAll.setEnabled(isEnabled);
+        deselectAll.setEnabled(isEnabled);
+    }
 }

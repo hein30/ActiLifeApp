@@ -28,7 +28,7 @@ public class DataPanelController extends BaseController {
      */
     private void updateDataViews() {
         dataPanel.updateDataViews(data);
-        modelsPanelController.toggleAllButtons(data.getNumSelectedPeople() == 0 ? false : true);
+        modelsPanelController.toggleAllButtonsOnModelOptionsPanel(data.getNumSelectedPeople() == 0 ? false : true);
     }
 
     @Override
@@ -66,7 +66,7 @@ public class DataPanelController extends BaseController {
     @Override
     public void toggleAllButtons(boolean isEnabled) {
         if (!data.getFileMap().isEmpty()) {
-            dataPanel.toggleButtons(isEnabled);
+            dataPanel.toggleAllButtons(isEnabled);
         }
     }
 

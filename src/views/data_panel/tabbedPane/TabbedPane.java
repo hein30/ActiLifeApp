@@ -64,8 +64,10 @@ public class TabbedPane extends JTabbedPane {
         modelImportPanel.setController(modelsPanelController);
     }
 
-    public void toggleButtons(boolean isEnabled) {
+    public void toggleAllButtons(boolean isEnabled) {
         dataImportPanel.toggleButtons(isEnabled);
+        dataSubjectListPanel.toggleButtons(isEnabled);
+        modelImportPanel.toggleButtons(isEnabled);
         dragAndDropListener.setEnabled(isEnabled);
     }
 

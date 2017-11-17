@@ -159,8 +159,12 @@ public class ModelsPanelController extends BaseController {
 
     public void toggleAllButtons(boolean isEnabled) {
         dataPanelController.toggleAllButtons(isEnabled);
-        modelsPanel.toggleButtons(isEnabled);
         modelImportPanel.toggleButtons(isEnabled);
+        toggleAllButtonsOnModelOptionsPanel(isEnabled);
+    }
+
+    public void toggleAllButtonsOnModelOptionsPanel(boolean isEnabled) {
+        modelsPanel.toggleButtons(isEnabled);
     }
 
     public void setDataPanelController(DataPanelController dataPanelController) {
