@@ -32,7 +32,8 @@ public class ModelsOptionPanel extends JPanel {
     private JScrollPane jScrollPane;
     private JButton generateButton;
 
-    private boolean isControlEnabled;
+    private boolean areCheckBoxesEnabled;
+    private boolean allDataReadyForGeneration;
 
     public ModelsOptionPanel() {
         setBorder(BorderFactory.createTitledBorder("3D Models"));
@@ -69,7 +70,7 @@ public class ModelsOptionPanel extends JPanel {
     private void addCheckBox(FileModel model) {
         JCheckBox checkBox = new JCheckBox(FilenameUtils.removeExtension(model.getFileName()) + isBuiltInText(model));
         checkBox.setSelected(model.isSelected());
-        checkBox.setEnabled(isControlEnabled);
+        checkBox.setEnabled(areCheckBoxesEnabled);
         checkBox.addItemListener((ItemEvent e) -> {
             int indexOfChangedItem = checkBoxList.indexOf(e.getItem());
             controller.updateSelection(indexOfChangedItem, e.getStateChange());
@@ -84,8 +85,10 @@ public class ModelsOptionPanel extends JPanel {
     }
 
     public void toggleButtons(boolean isEnabled) {
-        isControlEnabled = isEnabled;
+        areCheckBoxesEnabled = isEnabled;
         checkBoxList.forEach(checkbox -> checkbox.setEnabled(isEnabled));
+
+        generateButton.setEnabled(isEnabled && allDataReadyForGeneration);
     }
 
     public void updateButtonStates(ThreeDModels models, ImportedData importedData) {
@@ -97,7 +100,8 @@ public class ModelsOptionPanel extends JPanel {
     }
 
     private void disableGenerateButton() {
-        generateButton.setEnabled(false);
+        allDataReadyForGeneration = false;
+        generateButton.setEnabled(allDataReadyForGeneration);
         generateButton.setBorder(BorderFactory.createLineBorder(Color.GRAY, 1));
         generateButton.setToolTipText("Select one or more models to generate.");
     }
@@ -108,8 +112,9 @@ public class ModelsOptionPanel extends JPanel {
      * @param importedData - imported data must not be empty.
      */
     private void enableGenerateButton(ImportedData importedData) {
-        if (!importedData.getFileMap().isEmpty()) {
-            generateButton.setEnabled(true);
+        if (importedData.getNumSelectedPeople() > 0) {
+            allDataReadyForGeneration = true;
+            generateButton.setEnabled(allDataReadyForGeneration);
             generateButton.setBorder(BorderFactory.createLineBorder(Color.GREEN, 5));
             generateButton.setToolTipText("Generate selected 3D models for the input.");
         }

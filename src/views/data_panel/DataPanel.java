@@ -48,8 +48,8 @@ public class DataPanel extends JPanel {
         tabbedPane.setModelsPanelController(modelsPanelController);
     }
 
-    public void toggleButtons(boolean isEnabled) {
-        tabbedPane.toggleButtons(isEnabled);
+    public void toggleAllButtons(boolean isEnabled) {
+        tabbedPane.toggleAllButtons(isEnabled);
     }
 
 
