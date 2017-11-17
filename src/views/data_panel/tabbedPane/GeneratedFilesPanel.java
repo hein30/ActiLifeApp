@@ -84,7 +84,7 @@ public class GeneratedFilesPanel extends JPanel {
             DefaultMutableTreeNode node = (DefaultMutableTreeNode)
                     tree.getLastSelectedPathComponent();
 
-            if (!node.children().asIterator().hasNext()) {
+            if (!node.children().hasMoreElements()) {
                 GeneratedFileModel fileModel = (GeneratedFileModel) node.getUserObject();
                 if (fileModel.getFile() != null) {
                     detailsTextArea.setText(fileModel.getDetails());
