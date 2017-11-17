@@ -13,7 +13,9 @@ import javax.swing.tree.DefaultMutableTreeNode;
 import models.GeneratedFileModel;
 import models.ImportedData;
 import utils.TreeModelBuilder;
-import views.stlViewer.STLViewer;
+import views.stlViewer.Java3DPreviewer;
+import views.stlViewer.MacPreviewer;
+import views.stlViewer.STLPreviewer;
 
 public class GeneratedFilesPanel extends JPanel {
 
@@ -34,7 +36,7 @@ public class GeneratedFilesPanel extends JPanel {
     private JScrollPane fileListPane;
 
     private JTextArea detailsTextArea;
-    private STLViewer preview;
+    private STLPreviewer preview;
 
     public GeneratedFilesPanel() {
         setBorder(BorderFactory.createTitledBorder("Generated Files"));
@@ -52,7 +54,7 @@ public class GeneratedFilesPanel extends JPanel {
         textScroll.setBorder(BorderFactory.createTitledBorder("Details"));
         textScroll.setMinimumSize(minSize);
 
-        preview = new STLViewer();
+        setUpPreviewer();
 
         detailsAndPreviewSplitPane = new JSplitPane(JSplitPane.VERTICAL_SPLIT, textScroll, preview);
         detailsAndPreviewSplitPane.setOneTouchExpandable(true);
@@ -63,6 +65,15 @@ public class GeneratedFilesPanel extends JPanel {
         leftRightSplitPane.setOneTouchExpandable(true);
         leftRightSplitPane.setDividerLocation(0.7);
         add(leftRightSplitPane, BorderLayout.CENTER);
+    }
+
+    private void setUpPreviewer() {
+        if (System.getProperty("os.name").contains("Windows")) {
+            preview = new Java3DPreviewer();
+        } else {
+            preview = new MacPreviewer();
+        }
+
     }
 
     public void updateGeneratedFilesView(ImportedData importedData) {
@@ -78,7 +89,7 @@ public class GeneratedFilesPanel extends JPanel {
                 if (fileModel.getFile() != null) {
                     detailsTextArea.setText(fileModel.getDetails());
                     detailsTextArea.setCaretPosition(0);
-                    preview.loadfile(fileModel.getFile());
+                    preview.loadFile(fileModel.getFile());
                 }
             } else {
                 detailsTextArea.setText("Select a file to view");
