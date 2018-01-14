@@ -89,4 +89,8 @@ public class DataPanelController extends BaseController {
         changeSelectedValues(true);
         updateDataViews();
     }
+
+    public void updateName(Subject subject, String name) {
+        subject.setSubjectId(name);
+    }
 }

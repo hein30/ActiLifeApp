@@ -14,6 +14,7 @@ import models.GeneratedFileModel;
 import models.ImportedData;
 import utils.TreeModelBuilder;
 import views.stlViewer.Java3DPreviewer;
+import views.stlViewer.JoglViewer;
 import views.stlViewer.MacPreviewer;
 import views.stlViewer.STLPreviewer;
 
@@ -69,9 +70,9 @@ public class GeneratedFilesPanel extends JPanel {
 
     private void setUpPreviewer() {
         if (System.getProperty("os.name").contains("Windows")) {
-            preview = new Java3DPreviewer();
+            preview = new JoglViewer();
         } else {
-            preview = new MacPreviewer();
+            preview = new JoglViewer();
         }
 
     }

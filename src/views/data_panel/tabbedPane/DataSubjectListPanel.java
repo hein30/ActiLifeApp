@@ -5,6 +5,8 @@ import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.BorderFactory;
@@ -13,14 +15,19 @@ import javax.swing.DefaultListModel;
 import javax.swing.DefaultListSelectionModel;
 import javax.swing.JButton;
 import javax.swing.JList;
+import javax.swing.JMenuItem;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JPopupMenu;
 import javax.swing.JScrollPane;
 import javax.swing.ListModel;
+import javax.swing.SwingUtilities;
 import javax.swing.event.ListSelectionEvent;
 import models.ImportedData;
 import models.Subject;
 import models.Subjects;
 import org.apache.commons.lang.ArrayUtils;
+import org.apache.commons.lang.StringUtils;
 
 public class DataSubjectListPanel extends JPanel {
 
@@ -100,6 +107,49 @@ public class DataSubjectListPanel extends JPanel {
             if (e.getValueIsAdjusting()) {
                 Subject subject = jList.getModel().getElementAt(e.getFirstIndex());
                 controller.changeSelectionForSubject(subject);
+            }
+        });
+
+        jList.addMouseListener(new MouseListener() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+
+            }
+
+            @Override
+            public void mousePressed(MouseEvent e) {
+                if (SwingUtilities.isRightMouseButton(e)) {
+                    int index = jList.locationToIndex(e.getPoint());
+                    Subject subject = jList.getModel().getElementAt(index);
+
+                    JPopupMenu menu = new JPopupMenu();
+                    JMenuItem editName = new JMenuItem("Edit inscription");
+                    editName.addActionListener((ActionEvent actionEvent) -> {
+                        String name = JOptionPane.showInputDialog(null, "Change inscription from " + subject.getSubjectId());
+
+                        if (StringUtils.isNotBlank(name)) {
+                            System.out.println("new name:" + name);
+                            controller.updateName(subject, name);
+                        }
+                    });
+                    menu.add(editName);
+                    menu.show(jList, e.getPoint().x, e.getPoint().y);
+                }
+            }
+
+            @Override
+            public void mouseReleased(MouseEvent e) {
+
+            }
+
+            @Override
+            public void mouseEntered(MouseEvent e) {
+
+            }
+
+            @Override
+            public void mouseExited(MouseEvent e) {
+
             }
         });
 
